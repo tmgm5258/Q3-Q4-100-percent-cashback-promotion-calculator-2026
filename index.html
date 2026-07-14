@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Win-Back Challenge — Self-Funding Forecast (Option A)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+
+  :root{
+    --navy:#000B50; --mid:#2C5FAD; --reg:#3F69B5; --accent:#00B3EB; --accent-d:#0A7FB0;
+    --teal:#12A594; --teal-d:#0E8169;
+    --ink:#0C1740; --body:#46557A; --muted:#8C99B8; --line:#E4EAF3;
+    --bg:#EDF1F8; --card:#FFFFFF; --drop:#D9E2F0;
+    --sans:'Inter',system-ui,sans-serif; --disp:'Space Grotesk',var(--sans);
+    --r:14px; --r-sm:10px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{font-family:var(--sans);background:var(--bg);color:var(--body);line-height:1.6;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:1040px;margin:0 auto;padding:0 22px;}
+
+  header.hero{background:var(--navy);color:#fff;padding:54px 0 58px;}
+  .eyebrow{font:600 12px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:#7FE3FF;display:flex;align-items:center;gap:9px;}
+  .eyebrow::before{content:"";width:22px;height:2px;background:var(--accent);display:inline-block;}
+  header.hero h1{font:600 38px/1.08 var(--disp);margin:18px 0 12px;letter-spacing:-.01em;color:#fff;max-width:640px;}
+  header.hero p{margin:0;color:#B9C4E6;font-size:16px;max-width:560px;}
+
+  main{padding:34px 0 56px;}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+    box-shadow:0 1px 2px rgba(12,23,64,.04),0 18px 40px -28px rgba(12,23,64,.28);padding:30px 30px 26px;}
+  .sec-teal{--accent:var(--teal);--accent-d:var(--teal-d);}
+
+  .stage-head{display:flex;align-items:flex-start;gap:14px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:20px;margin-bottom:24px;}
+  .badge{font:700 12px/1 var(--disp);letter-spacing:.06em;color:var(--navy);background:#EEF3FA;border:1px solid #DCE6F3;padding:8px 12px;border-radius:99px;white-space:nowrap;}
+  .stage-head .txt h2{font:600 21px/1.2 var(--disp);color:var(--ink);margin:0 0 4px;letter-spacing:-.01em;}
+  .stage-head .txt p{margin:0;font-size:14.5px;color:var(--muted);}
+  .info-wrap{position:relative;margin-left:auto;flex:none;}
+  .info-btn{width:25px;height:25px;border-radius:50%;border:1px solid #DCE6F3;background:#EEF3FA;color:var(--navy);font:700 13px/1 var(--disp);text-transform:none;letter-spacing:normal;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;transition:background .15s,border-color .15s,color .15s;}
+  .info-btn:hover{background:var(--accent);border-color:var(--accent);color:#fff;}
+  .info-pop{position:absolute;top:34px;right:0;width:330px;max-width:84vw;max-height:min(74vh,560px);overflow-y:auto;background:#fff;border:1px solid var(--line);border-radius:var(--r-sm);box-shadow:0 10px 30px rgba(0,11,80,.16);padding:15px 17px;z-index:60;display:none;text-align:left;cursor:default;font:400 12.5px/1.55 var(--sans);text-transform:none;letter-spacing:normal;}
+  .info-pop.vpop{width:372px;}
+  .info-wrap:hover .info-pop,.info-wrap.pinned .info-pop{display:block;}
+  .info-pop h4{font:700 10.5px/1 var(--disp);letter-spacing:.06em;text-transform:uppercase;color:var(--accent-d);margin:14px 0 6px;}
+  .info-pop h4:first-child{margin-top:0;}
+  .info-pop p{margin:0;font:400 12.5px/1.55 var(--sans);color:var(--body);}
+  .info-pop .formula{background:#F5FAFE;border:1px solid #D4E9F7;border-radius:6px;padding:9px 11px;font:600 12.5px/1.6 var(--disp);color:var(--ink);}
+  .info-pop ul{margin:0;padding:0;list-style:none;}
+  .info-pop li{margin:0 0 9px;font:400 12.5px/1.5 var(--sans);color:var(--body);}
+  .info-pop li:last-child{margin-bottom:0;}
+  .info-pop li .q{display:block;font-weight:600;color:var(--ink);margin-bottom:1px;}
+  .derived{background:#EDF1F6;border:1px solid var(--line);border-radius:8px;padding:10px 14px;font:600 15px var(--disp);color:var(--muted);font-variant-numeric:tabular-nums;}
+
+  .grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:34px;align-items:start;}
+
+  .seg{display:inline-flex;background:#EEF2F9;border:1px solid var(--line);border-radius:99px;padding:4px;margin-bottom:22px;width:100%;}
+  .seg button{flex:1;border:0;background:transparent;cursor:pointer;font:500 13px var(--sans);color:var(--body);padding:9px 10px;border-radius:99px;transition:.18s;white-space:nowrap;}
+  .seg button.on{background:#fff;color:var(--navy);font-weight:600;box-shadow:0 1px 2px rgba(12,23,64,.12);}
+
+  .field{margin-bottom:22px;}
+  .field .lab{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:11px;}
+  .field .lab .name{font:600 13.5px var(--sans);color:var(--ink);}
+  .field .lab .hint{font-size:12px;color:var(--muted);}
+  .row{display:flex;align-items:center;gap:14px;}
+  input[type=range]{-webkit-appearance:none;appearance:none;flex:1;height:6px;border-radius:99px;background:linear-gradient(90deg,var(--accent) 0%,var(--accent) var(--fill,40%),#E1E8F3 var(--fill,40%),#E1E8F3 100%);outline:none;cursor:pointer;}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:#fff;border:2px solid var(--accent);box-shadow:0 2px 6px rgba(0,90,140,.3);cursor:pointer;transition:.12s;}
+  input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.12);}
+  input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:#fff;border:2px solid var(--accent);box-shadow:0 2px 6px rgba(0,90,140,.3);cursor:pointer;}
+  .numbox{display:flex;align-items:center;background:#fff;border:1.5px solid var(--line);border-radius:var(--r-sm);padding:0 10px;height:42px;min-width:104px;transition:.15s;}
+  .numbox:focus-within{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,179,235,.16);}
+  .numbox input{border:0;outline:none;width:100%;font:600 16px var(--disp);color:var(--ink);text-align:right;background:transparent;-moz-appearance:textfield;}
+  .numbox input::-webkit-outer-spin-button,.numbox input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0;}
+  .numbox .suf{font:500 14px var(--sans);color:var(--muted);padding-left:5px;}
+
+  .presets .pl{font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:9px;font-weight:600;}
+  .chips{display:flex;gap:9px;}
+  .chip{flex:1;border:1.5px solid var(--line);background:#fff;border-radius:var(--r-sm);padding:11px 8px;cursor:pointer;text-align:center;transition:.16s;}
+  .chip:hover{border-color:#B9CBEA;background:#FAFCFE;}
+  .chip.on{border-color:var(--accent);background:#F0FAFE;}
+  .chip .ct{font:600 13px var(--sans);color:var(--ink);display:block;}
+  .chip .cs{font-size:11px;color:var(--muted);margin-top:2px;display:block;}
+
+  .result{display:flex;align-items:baseline;gap:11px;margin-bottom:6px;}
+  .result .big{font:700 52px/1 var(--disp);color:var(--navy);letter-spacing:-.02em;font-variant-numeric:tabular-nums;}
+  .result .rl{font:600 14px var(--sans);color:var(--accent-d);}
+  .sub-res{font-size:13px;color:var(--muted);margin-bottom:20px;}
+
+  .funnel{max-width:430px;margin:0 auto;}
+  .tier{position:relative;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;transition:width .42s cubic-bezier(.4,0,.2,1),background .3s;}
+  .tier .tv{font:700 19px var(--disp);font-variant-numeric:tabular-nums;}
+  .tier .tk{font:500 11px var(--sans);opacity:.85;margin-left:7px;letter-spacing:.02em;}
+  .t-reg{height:58px;width:100%;background:var(--reg);}
+  .taper{height:62px;background:var(--drop);transition:clip-path .42s cubic-bezier(.4,0,.2,1);position:relative;display:flex;align-items:center;justify-content:center;}
+  .taper .conv{font:700 15px var(--disp);color:var(--navy);background:#fff;border:1px solid var(--line);padding:5px 12px;border-radius:99px;box-shadow:0 2px 8px rgba(12,23,64,.1);font-variant-numeric:tabular-nums;}
+  .t-ftd{height:58px;background:var(--accent);margin:0 auto;min-width:8%;}
+  .ftd-cap{text-align:center;margin-top:12px;}
+  .ftd-cap .fv{font:700 22px var(--disp);color:var(--accent-d);font-variant-numeric:tabular-nums;}
+  .ftd-cap .fk{font:500 12px var(--sans);color:var(--muted);display:block;margin-top:1px;}
+  .drop-note{text-align:center;font-size:12.5px;color:var(--muted);margin-top:14px;}
+  .drop-note b{color:var(--body);font-weight:600;font-variant-numeric:tabular-nums;}
+
+  .explain{margin-top:26px;background:#F5F8FC;border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:0 var(--r-sm) var(--r-sm) 0;padding:16px 18px;display:flex;gap:12px;align-items:flex-start;}
+  .explain .ic{flex:none;width:22px;height:22px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font:700 13px var(--disp);margin-top:1px;}
+  .explain p{margin:0;font-size:14.5px;color:var(--ink);line-height:1.55;}
+  .explain b{font-weight:600;color:var(--navy);font-variant-numeric:tabular-nums;}
+
+  /* equation operators between cards */
+  .join{display:flex;justify-content:center;margin:18px 0;}
+  .join span{width:40px;height:40px;border-radius:50%;background:#fff;border:1px solid var(--line);box-shadow:0 5px 16px rgba(12,23,64,.1);display:flex;align-items:center;justify-content:center;font:600 21px var(--disp);color:var(--mid);}
+
+  /* total panel */
+  .total{border-color:#CFE0F2;box-shadow:0 1px 2px rgba(12,23,64,.04),0 22px 50px -30px rgba(12,23,64,.4);}
+  .total .tbadge{background:var(--navy);color:#fff;border-color:var(--navy);}
+  .total-num{display:flex;align-items:baseline;gap:13px;margin-bottom:20px;}
+  .total-num .big{font:700 62px/1 var(--disp);color:var(--navy);letter-spacing:-.025em;font-variant-numeric:tabular-nums;}
+  .total-num .rl{font:600 15px var(--sans);color:var(--body);}
+  .merge{display:flex;align-items:center;gap:16px;margin-bottom:20px;flex-wrap:wrap;}
+  .mstream{background:#F6F9FD;border:1px solid var(--line);border-radius:var(--r-sm);padding:13px 20px;min-width:158px;flex:1;}
+  .mstream .mv{font:700 26px var(--disp);font-variant-numeric:tabular-nums;display:block;letter-spacing:-.01em;}
+  .mstream .mk{font-size:12.5px;color:var(--muted);margin-top:3px;}
+  .mstream.snew .mv{color:var(--accent-d);}
+  .mstream.sexi .mv{color:var(--teal-d);}
+  .merge .plus{font:600 24px var(--disp);color:var(--muted);}
+  .stackbar{display:flex;height:32px;border-radius:8px;overflow:hidden;margin-bottom:11px;background:#EEF2F9;}
+  .stackbar>div{transition:width .42s cubic-bezier(.4,0,.2,1);min-width:2px;}
+  .seg-new{background:var(--accent);}
+  .seg-ex{background:var(--teal);}
+  .stack-leg{display:flex;gap:22px;font-size:12.5px;color:var(--body);flex-wrap:wrap;}
+  .stack-leg .dot{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:7px;vertical-align:-1px;}
+  .stack-leg .dnew{background:var(--accent);}
+  .stack-leg .dex{background:var(--teal);}
+  .stack-leg b{font-variant-numeric:tabular-nums;color:var(--ink);font-weight:600;}
+
+  /* ladder */
+  .ladder-viz{margin-top:2px;}
+  .rung{text-align:center;margin-bottom:15px;}
+  .rung:last-child{margin-bottom:0;}
+  .rung-cap{font-size:11.5px;color:var(--body);margin-bottom:7px;line-height:1.4;}
+  .rung-cap b{color:var(--ink);font-weight:600;}
+  .rung-cap i{color:var(--accent-d);font-style:normal;font-weight:600;}
+  .rung-bar{height:46px;border-radius:8px;margin:0 auto;display:flex;align-items:center;justify-content:center;min-width:54px;transition:width .45s cubic-bezier(.4,0,.2,1);}
+  .rung-bar .rc{font:700 18px var(--disp);color:#fff;font-variant-numeric:tabular-nums;}
+  .rung-sub{font-size:11.5px;color:var(--muted);margin-top:6px;}
+  .rung-bar.r3{background:#00A8DE;}
+  .rung-bar.r2{background:#2C84C8;}
+  .rung-bar.r1{background:var(--reg);}
+  .rung-bar.r0{background:#7488B5;}
+
+  /* volume */
+  .vol-comp{display:flex;height:32px;border-radius:8px;overflow:hidden;margin:16px 0 14px;background:#EEF2F9;}
+  .vol-comp>div{transition:width .42s cubic-bezier(.4,0,.2,1);min-width:0;}
+  .vc-c{background:#00A8DE;} .vc-t2{background:#2C84C8;} .vc-t1{background:var(--reg);}
+  .vol-leg{display:flex;flex-direction:column;gap:8px;}
+  .vrow{display:flex;align-items:center;gap:9px;font-size:12.5px;color:var(--body);}
+  .vrow .dot{width:10px;height:10px;border-radius:2px;flex:none;}
+  .vrow .dc{background:#00A8DE;} .vrow .dt2{background:#2C84C8;} .vrow .dt1{background:var(--reg);}
+  .vrow .vlab{flex:1;}
+  .vrow .vct{font:600 14px var(--disp);color:var(--ink);font-variant-numeric:tabular-nums;}
+  .vrow .vsh{color:var(--muted);font-size:11.5px;min-width:34px;text-align:right;}
+  .eff-box{margin-top:18px;background:#F5FAFE;border:1px solid #D4E9F7;border-radius:var(--r-sm);padding:13px 16px;}
+  .eb-row{display:flex;justify-content:space-between;align-items:baseline;font-size:13px;color:var(--body);padding:3px 0;}
+  .eb-row b{color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums;}
+  .eb-minus{color:#B45309;}
+  .eb-eff{border-top:1px dashed #C5DEF0;margin-top:5px;padding-top:9px;font-size:14px;}
+  .eb-eff b{color:var(--accent-d);font-size:18px;}
+
+  /* bridge: reached -> stopped explainer */
+  .bridge{background:#F7FAFE;border:1px dashed #C4D7EC;box-shadow:none;}
+  .bridge-eyebrow{font:700 11.5px var(--disp);letter-spacing:.1em;text-transform:uppercase;color:var(--accent-d);display:flex;align-items:center;gap:9px;margin-bottom:12px;}
+  .bridge-eyebrow::before{content:"";width:20px;height:2px;background:var(--accent);}
+  .bintro{margin:0 0 14px;font-size:14px;color:var(--ink);max-width:660px;line-height:1.55;}
+  .bintro b{font-weight:600;color:var(--navy);}
+  .bridge-rule{display:inline-block;background:#fff;border:1px solid var(--line);border-radius:8px;padding:9px 14px;font:600 13.5px var(--sans);color:var(--navy);margin-bottom:18px;}
+  .bridge-rule .hl{color:var(--accent-d);}
+  .bridge-legend{display:flex;gap:22px;flex-wrap:wrap;margin-bottom:16px;font-size:12px;color:var(--body);}
+  .bridge-legend i{display:inline-block;width:18px;height:11px;border-radius:3px;margin-right:7px;vertical-align:-1px;}
+  .lg-past{background:repeating-linear-gradient(45deg,#D4DEEC,#D4DEEC 4px,#C3D0E4 4px,#C3D0E4 8px);}
+  .lg-stop{background:var(--accent);}
+  .beq{display:grid;grid-template-columns:86px 1fr 150px;gap:16px;align-items:center;padding:10px 0;}
+  .beq + .beq{border-top:1px solid #E7EEF6;}
+  .beq-label{display:flex;align-items:center;gap:8px;font:600 13px var(--sans);color:var(--ink);}
+  .beq-label .dot{width:11px;height:11px;border-radius:3px;flex:none;}
+  .dot.s1d{background:var(--reg);} .dot.s2d{background:#2C84C8;} .dot.s3d{background:#00A8DE;}
+  .beq-bar{position:relative;height:30px;background:#EAF0F7;border-radius:6px;display:flex;overflow:hidden;}
+  .beq-past{height:100%;background:repeating-linear-gradient(45deg,#D4DEEC,#D4DEEC 5px,#C5D2E5 5px,#C5D2E5 10px);transition:width .45s cubic-bezier(.4,0,.2,1);}
+  .beq-stop{height:100%;transition:width .45s cubic-bezier(.4,0,.2,1);}
+  .beq-stop.s1{background:var(--reg);} .beq-stop.s2{background:#2C84C8;} .beq-stop.s3{background:#00A8DE;}
+  .beq-formula{font:600 14.5px var(--disp);color:var(--body);text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap;}
+  .beq-formula b{color:var(--ink);font-weight:600;}
+  .beq-formula .res{color:var(--accent-d);font-size:16px;}
+  .beq-summit .beq-formula .zero{color:#B45309;}
+  .beq-note{font-size:12.5px;color:#8a5a12;background:#FFF8EE;border:1px solid #F2E0C4;border-radius:8px;padding:11px 14px;margin-top:14px;line-height:1.5;}
+  .beq-note b{font-weight:600;color:#7a4f10;}
+  @media (max-width:760px){
+    .beq{grid-template-columns:1fr auto;grid-template-areas:"label formula" "bar bar";gap:7px 12px;}
+    .beq-label{grid-area:label;} .beq-formula{grid-area:formula;text-align:left;} .beq-bar{grid-area:bar;}
+  }
+
+  /* revenue */
+  .revenue .seg{margin-bottom:9px;}
+  .seg-note{font-size:11.5px;color:var(--muted);margin:0 0 18px;line-height:1.45;}
+  .mix-help{font-size:11.5px;color:var(--muted);margin:10px 0 0;line-height:1.5;}
+  .rev-chain{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font:600 14px var(--disp);color:var(--body);margin:2px 0 14px;}
+  .rev-chain b{color:var(--ink);font-variant-numeric:tabular-nums;font-weight:600;}
+  .rev-chain .rev-out b{color:var(--accent-d);font-size:17px;}
+  .blend-box{background:#F5FAFE;border:1px solid #D4E9F7;border-radius:var(--r-sm);padding:11px 14px;font-size:13px;color:var(--body);line-height:1.7;}
+  .blend-box b{color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums;}
+  .blend-box .be{color:var(--accent-d);}
+  .prodmix{margin-top:26px;border-top:1px solid var(--line);padding-top:22px;}
+  .pm-head{font:600 14px var(--sans);color:var(--ink);margin-bottom:14px;display:flex;align-items:flex-start;gap:10px;}
+  .pm-head>span{flex:1;min-width:0;}
+  .pm-scroll{overflow-x:auto;}
+  .pm-table{width:100%;border-collapse:collapse;font-size:13px;min-width:540px;}
+  .pm-table th{font:600 10.5px var(--sans);letter-spacing:.04em;text-transform:uppercase;color:var(--muted);padding:0 12px 9px;border-bottom:1px solid var(--line);text-align:left;}
+  .pm-table th.num{text-align:right;}
+  .pm-table td{padding:9px 12px;border-bottom:1px solid #EEF2F8;color:var(--body);vertical-align:middle;}
+  .pm-table td.num{text-align:right;}
+  .pm-sym{font:600 13px var(--disp);color:var(--ink);}
+  .pm-cls{font-size:11px;color:var(--muted);}
+  .pm-ppl{font-variant-numeric:tabular-nums;font-weight:600;color:var(--ink);}
+  .pm-mixin{display:inline-flex;align-items:center;background:#fff;border:1.5px solid var(--line);border-radius:7px;padding:0 8px;height:33px;width:76px;transition:.15s;}
+  .pm-mixin:focus-within{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,179,235,.14);}
+  .pm-mixin input{border:0;outline:none;width:100%;text-align:right;font:600 13px var(--disp);color:var(--ink);background:transparent;-moz-appearance:textfield;}
+  .pm-mixin input::-webkit-outer-spin-button,.pm-mixin input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0;}
+  .pm-mixin .pmsuf{font-size:11px;color:var(--muted);padding-left:3px;}
+  .pm-contrib{display:flex;align-items:center;gap:10px;justify-content:flex-end;}
+  .pm-cbar{height:8px;border-radius:99px;background:var(--accent);width:0;min-width:0;transition:width .42s cubic-bezier(.4,0,.2,1);}
+  .pm-cval{font-variant-numeric:tabular-nums;color:var(--body);min-width:38px;text-align:right;font-size:12px;}
+  .pm-table tfoot td{border-top:2px solid var(--line);border-bottom:none;font-weight:600;color:var(--ink);padding-top:11px;}
+  .pm-blend{color:var(--accent-d);font:700 15px var(--disp);font-variant-numeric:tabular-nums;}
+  .pm-note{font-size:12px;color:var(--muted);margin-top:13px;line-height:1.55;max-width:700px;}
+
+  /* cost */
+  .numbox .pre{font:500 14px var(--sans);color:var(--muted);padding-right:2px;}
+
+  /* verdict */
+  .verdict{border-color:#CFE0F2;box-shadow:0 1px 2px rgba(12,23,64,.04),0 22px 50px -30px rgba(12,23,64,.42);}
+  .lens-box{display:flex;flex-direction:column;gap:10px;margin-top:16px;}
+  .lens{background:#F5F8FC;border:1px solid var(--line);border-radius:var(--r-sm);padding:11px 14px;font-size:12.5px;color:var(--body);line-height:1.5;}
+  .lens b{color:var(--navy);font-weight:600;}
+  .recap{display:flex;flex-wrap:wrap;gap:9px;margin-top:18px;}
+  .recap .rc{background:#F6F9FD;border:1px solid var(--line);border-radius:8px;padding:9px 13px;font-size:11.5px;color:var(--muted);}
+  .recap .rc b{color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums;display:block;font:600 15px var(--disp);margin-top:2px;}
+  .verdict-compare{display:grid;grid-template-columns:1fr;gap:14px;margin-top:26px;}
+  .vc-card{border:1px solid var(--line);border-radius:var(--r);padding:18px 20px;background:#fff;}
+  .vc-rec{border:1.5px solid var(--accent);box-shadow:0 10px 26px -18px rgba(0,120,170,.55);}
+  .vc-title{font:600 14px var(--disp);color:var(--ink);margin-bottom:12px;display:flex;align-items:center;gap:9px;flex-wrap:wrap;}
+  .vc-tag{font:600 10px var(--sans);letter-spacing:.05em;text-transform:uppercase;color:var(--accent-d);background:#E4F6FD;border:1px solid #C5ECF8;padding:3px 8px;border-radius:99px;}
+  .vcm{display:flex;justify-content:space-between;align-items:baseline;padding:8px 0;border-bottom:1px solid #F0F4F9;}
+  .vcm:last-child{border-bottom:none;}
+  .vcm-l{font-size:12.5px;color:var(--body);}
+  .vcm-v{font:700 16px var(--disp);color:var(--ink);font-variant-numeric:tabular-nums;}
+  .vcm-v.good{color:#0E7C5A;} .vcm-v.bad{color:#C0392B;} .vcm-v.warn{color:#B45309;}
+  .be-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:18px;background:#FBFCFE;border:1px solid var(--line);border-radius:var(--r-sm);padding:16px;}
+  .be-stat{text-align:center;}
+  .be-l{font-size:11.5px;color:var(--muted);display:block;margin-bottom:5px;line-height:1.3;}
+  .be-v{font:700 18px var(--disp);color:var(--ink);font-variant-numeric:tabular-nums;}
+  .be-v.good{color:#0E7C5A;} .be-v.warn{color:#B45309;}
+  .be-strip.cp4{grid-template-columns:repeat(4,1fr);margin-top:12px;}
+  @media (max-width:760px){.verdict-compare{grid-template-columns:1fr;}.be-strip{grid-template-columns:1fr;gap:14px;}.be-strip.cp4{grid-template-columns:1fr;}}
+
+  footer{text-align:center;color:var(--muted);font-size:12.5px;padding:8px 0 40px;line-height:1.7;}
+  footer b{color:var(--body);font-weight:600;}
+
+  @media (max-width:760px){
+    header.hero h1{font-size:29px;}
+    .card{padding:24px 18px 22px;}
+    .grid{grid-template-columns:1fr;gap:30px;}
+    .result .big{font-size:44px;}
+    .total-num .big{font-size:50px;}
+  }
+
+  /* ---- Option A additions ---- */
+  .info-pop .formula .f-name{display:block;font:500 11px/1.4 var(--sans);color:var(--muted);text-transform:none;letter-spacing:.01em;margin-bottom:3px;}
+  .info-pop .formula .f-live{display:block;font:600 13px/1.45 var(--disp);color:var(--ink);font-variant-numeric:tabular-nums;}
+  .info-pop .formula .fblock{margin-bottom:12px;}
+  .info-pop .formula .fblock:last-child{margin-bottom:0;}
+  .info-pop h4{margin-top:15px;padding-top:15px;border-top:1px solid var(--line);}
+  .info-pop h4:first-child{margin-top:0;padding-top:0;border-top:none;}
+  .info-pop .tip-extra{font:400 12.5px/1.55 var(--sans);color:var(--body);}
+  .info-pop .bkd-item{margin-bottom:11px;}
+  .info-pop .bkd-name{display:block;font:600 12.5px var(--sans);color:var(--ink);}
+  .info-pop .bkd-det{display:block;color:var(--body);font-size:12px;margin-top:2px;font-variant-numeric:tabular-nums;}
+  .info-pop .bkd-det b{color:var(--accent-d);font-weight:600;}
+  .info-pop .bkd-cap{color:#B45309;}
+  .info-pop .bkd-avg{margin-top:3px;padding:11px 13px;background:#F5FAFE;border:1px solid #D4E9F7;border-radius:8px;font:500 12px/1.85 var(--disp);color:var(--body);font-variant-numeric:tabular-nums;}
+  .info-pop .bkd-avg-t{display:block;font-family:var(--sans);color:var(--ink);font-weight:600;margin-bottom:5px;}
+  .info-pop .bkd-avg b{color:var(--accent-d);font-size:13px;}
+  .t1-flow{display:flex;align-items:stretch;gap:12px;margin-top:16px;flex-wrap:wrap;}
+  .t1-box{flex:1;min-width:130px;background:#F7F9FE;border:1px solid var(--line);border-radius:12px;padding:15px 16px;text-align:center;display:flex;flex-direction:column;justify-content:center;}
+  .t1-box.t1-refund{background:#E7F6F3;border-color:var(--teal);}
+  .t1-k{display:block;font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;font-weight:600;}
+  .t1-v{display:block;font:700 28px var(--disp);color:var(--navy);font-variant-numeric:tabular-nums;margin:4px 0 1px;letter-spacing:-.01em;}
+  .t1-box.t1-refund .t1-v{color:var(--teal-d);}
+  .t1-sub{display:block;font-size:11px;color:var(--body);}
+  .t1-op{display:flex;align-items:center;justify-content:center;font:600 11.5px var(--disp);color:var(--mid);text-align:center;line-height:1.35;flex:none;padding:0 2px;}
+  .rev-stats{display:flex;gap:16px;margin-bottom:24px;flex-wrap:wrap;align-items:stretch;}
+  .rev-stat{flex:1;min-width:190px;background:#F7F9FE;border:1px solid var(--line);border-radius:12px;padding:16px 20px;display:flex;flex-direction:column;justify-content:center;}
+  .rev-stat-hi{background:#EEF6FF;border-color:#CFE4FA;}
+  .rs-k{display:block;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;font-weight:600;margin-bottom:6px;}
+  .rs-v{display:block;font:700 32px var(--disp);color:var(--navy);font-variant-numeric:tabular-nums;letter-spacing:-.02em;line-height:1.1;}
+  .rs-sub{display:block;font-size:11.5px;color:var(--body);margin-top:4px;}
+  .pm-bar{display:flex;align-items:flex-start;justify-content:space-between;gap:22px;flex-wrap:wrap;margin-bottom:16px;}
+  .pm-title{font-size:12.5px;color:var(--body);flex:1;min-width:240px;max-width:62ch;line-height:1.55;}
+  .pm-bar .seg{flex:none;}
+  th[data-tip]{position:relative;}
+  th .info-wrap{display:inline-flex;vertical-align:middle;margin-left:6px;}
+  th .info-btn{width:15px;height:15px;font-size:9px;}
+  th .info-pop{left:0;right:auto;text-transform:none;letter-spacing:normal;font-weight:400;}
+  .info-pop .cs-list{line-height:1.95;}
+  .info-pop .cs-list b{color:var(--accent-d);font-weight:600;}
+  .assume-bar{background:#FFF9E9;border:1px solid #F0E0B0;border-radius:var(--r-sm);padding:13px 16px;font-size:13px;color:#6B5B22;line-height:1.55;margin-bottom:20px;}
+  .assume-bar b{color:#4A3D12;}
+  .scen-card{display:flex;align-items:center;gap:18px;padding:16px 22px;}
+  .scen-label{font:600 11.5px var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);flex:none;white-space:nowrap;}
+  .scen-card .chips{flex:1;}
+  .scen-card .chip{display:flex;flex-direction:column;justify-content:center;align-items:center;min-height:46px;}
+  @media(max-width:560px){.scen-card{flex-direction:column;align-items:stretch;gap:12px;}}
+  /* funnel: ND classes (.funnel/.tier/.t-reg/.taper/.conv/.t-ftd/.ftd-cap) from base stylesheet */
+  .funnel{margin-top:6px;}
+  .taper .conv{white-space:nowrap;}
+  /* verdict pass/fail hero */
+  .vhero{border-radius:var(--r);padding:20px 22px;border:1.5px solid;margin-top:2px;}
+  .vhero.pass{background:#E7F6F3;border-color:var(--teal);}
+  .vhero.fail{background:#FBECEA;border-color:#E4B4AE;}
+  .vhero .vstamp{display:inline-block;font:700 11px var(--disp);letter-spacing:.06em;text-transform:uppercase;color:#fff;padding:5px 11px;border-radius:99px;margin-bottom:9px;}
+  .vhero.pass .vstamp{background:var(--teal-d);} .vhero.fail .vstamp{background:#C0392B;}
+  .vhero .vbig{font:700 46px/1 var(--disp);letter-spacing:-.02em;font-variant-numeric:tabular-nums;}
+  .vhero.pass .vbig{color:var(--teal-d);} .vhero.fail .vbig{color:#C0392B;}
+  .vhero .vsub{font-size:13.5px;color:var(--body);margin-top:6px;}
+  /* solver tabs */
+  .svtabs{display:inline-flex;background:#EEF2F9;border:1px solid var(--line);border-radius:99px;padding:4px;margin:20px 0 16px;}
+  .svtabs button{border:0;background:transparent;cursor:pointer;font:500 13px var(--sans);color:var(--body);padding:8px 16px;border-radius:99px;}
+  .svtabs button.on{background:#fff;color:var(--navy);font-weight:600;box-shadow:0 1px 2px rgba(12,23,64,.12);}
+  .spanel{display:none;} .spanel.on{display:block;}
+  .stbl{width:100%;border-collapse:collapse;font-size:13px;}
+  .stbl th{font:600 10.5px var(--sans);letter-spacing:.04em;text-transform:uppercase;color:var(--muted);padding:0 12px 9px;border-bottom:1px solid var(--line);text-align:left;}
+  .stbl th.num{text-align:right;}
+  .stbl td{padding:8px 12px;border-bottom:1px solid #EEF2F8;color:var(--body);}
+  .stbl td.num{text-align:right;font-variant-numeric:tabular-nums;}
+  .stbl td.sym{font:600 13px var(--disp);color:var(--ink);}
+  .stbl td.cls{font-size:11px;color:var(--muted);}
+  .stbl tr.ok td{background:#F0FAF7;}
+  .stbl tr.ok td.res{color:var(--teal-d);font-weight:700;}
+  .stbl td.res{text-align:right;font:600 13px var(--disp);}
+  .price-in{display:inline-flex;align-items:center;background:#fff;border:1.5px solid var(--line);border-radius:7px;padding:0 8px;height:33px;width:88px;}
+  .price-in:focus-within{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,179,235,.14);}
+  .price-in input{border:0;outline:none;width:100%;text-align:right;font:600 13px var(--disp);color:var(--ink);background:transparent;}
+
+</style>
+</head>
+<body>
+
+  <header class="hero">
+    <div class="wrap">
+      <div class="eyebrow">TMGM · Retail Win-Back · Forecast Explorer</div>
+      <h1>Does the trading pay for the offer?</h1>
+      <p>A self-funding forecast for the win-back campaign to the KYC-verified base. Move the dials and watch every number rebuild — then see whether one lot's margin covers the cashback, and exactly what would make it.</p>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap">
+
+      <div class="assume-bar"><b>Heads-up on the inputs:</b> the deposit split, response rates, product mix and prices below are <b>starting assumptions</b>, not live data — every one is editable. Drop in real Salesforce and dealing-desk numbers and the whole forecast updates.</div>
+
+      <section class="card scen-card">
+        <span class="scen-label">Scenario</span>
+        <div class="chips" id="scenChips">
+          <div class="chip" data-scen="Worst"><span class="ct">Worst</span><span class="cs">low response</span></div>
+          <div class="chip on" data-scen="Base"><span class="ct">Base</span><span class="cs">middle case</span></div>
+          <div class="chip" data-scen="Best"><span class="ct">Best</span><span class="cs">strong pull</span></div>
+        </div>
+      </section>
+
+      <div class="join"><span>&#8595;</span></div>
+
+      <!-- STAGE 1 -->
+      <section class="card">
+        <div class="stage-head" data-tip="stage1">
+          <span class="badge">STAGE 1</span>
+          <div class="txt"><h2>The base &amp; deposits</h2><p>Start from the KYC-verified non-depositors, and how many the offer pulls into a first deposit (Tier 1).</p></div>
+        </div>
+        <div class="grid">
+          <div class="controls">
+            <div class="field"><div class="lab"><span class="name">Verified base</span><span class="hint">KYC'd · never deposited</span></div>
+              <div class="row"><input type="range" id="base_r" min="0" max="30000" step="100" /><div class="numbox"><input type="text" inputmode="numeric" id="base_n" /><span class="suf">people</span></div></div></div>
+            <div class="field"><div class="lab"><span class="name">Deposit response rate</span><span class="hint">% who make a first deposit</span></div>
+              <div class="row"><input type="range" id="resp_r" min="0" max="40" step="0.5" /><div class="numbox"><input type="number" id="resp_n" /><span class="suf">%</span></div></div></div>
+          </div>
+          <div class="viz">
+            <div class="result"><span class="big" id="o_dep">0</span><span class="rl">reach Tier 1</span></div>
+            <div class="sub-res">These <b>depositors</b> made a first deposit — the top of the trade ladder. Only the verified-but-never-funded base is targeted.</div>
+          </div>
+        </div>
+      </section>
+
+      <div class="join"><span>&#8595;</span></div>
+
+      <!-- STAGE 2 -->
+      <section class="card">
+        <div class="stage-head" data-tip="stage2">
+          <span class="badge">STAGE 2</span>
+          <div class="txt"><h2>The trade ladder</h2><p>Tier 1 unlocks nothing until Tier 2 is done. This is the share of depositors who place a first trade (1 lot).</p></div>
+        </div>
+        <div class="grid">
+          <div class="controls">
+            <div class="field"><div class="lab"><span class="name">Trade-through rate</span><span class="hint">% of depositors who trade &#8805;1 lot</span></div>
+              <div class="row"><input type="range" id="trade_r" min="0" max="100" step="1" /><div class="numbox"><input type="number" id="trade_n" /><span class="suf">%</span></div></div></div>
+            <div class="field"><div class="lab"><span class="name">Avg lots per trader</span><span class="hint">1 to unlock, up to 10 for draw</span></div>
+              <div class="row"><input type="range" id="lots_r" min="1" max="10" step="0.5" /><div class="numbox"><input type="number" id="lots_n" /><span class="suf">lots</span></div></div></div>
+          </div>
+          <div class="viz">
+            <div class="result"><span class="big" id="o_tr">0</span><span class="rl">complete Tier 2</span></div>
+            <div class="sub-res">These <b>converters</b> (FTDs) — deposited and traded. Everyone the campaign actually pays. Total lots traded: <b id="o_lots">0</b>.</div>
+            <div class="ladder-viz">
+              <div class="rung"><div class="rung-cap"><b>Tier 2 · traded 1 lot</b> · <i>unlocks both cashbacks</i></div><div class="rung-bar r3" id="lad_b2" style="width:60%"><span class="rc" id="lad_c2">0</span></div><div class="rung-sub"><span id="lad_p2">60</span>% of depositors trade</div></div>
+              <div class="rung"><div class="rung-cap"><b>Tier 1 · deposited</b> · first deposit made</div><div class="rung-bar r1" id="lad_b1" style="width:100%"><span class="rc" id="lad_c1">0</span></div><div class="rung-sub">all depositors</div></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="join"><span>&#8595;</span></div>
+
+      <!-- FUNNEL -->
+      <section class="card">
+        <div class="stage-head" data-tip="funnel">
+          <span class="badge" style="background:#E4F1FB">THE FUNNEL</span>
+          <div class="txt"><h2>Verified base &#8594; converters</h2><p>From the whole verified base down to paid converters &#8212; each bar is the share that reaches that stage. The drop is the response and trade-through rates at work.</p></div>
+        </div>
+        <div class="funnel">
+          <div class="tier t-reg" style="width:100%"><span class="tv" id="fn_baseV">21,700</span><span class="tk">verified base · KYC, never funded</span></div>
+          <div class="taper" id="fn_taper"><span class="conv" id="fn_badge">1,302 deposited · 6%</span></div>
+          <div class="t-ftd" id="fn_ftd" style="width:8%"></div>
+          <div class="ftd-cap"><span class="fv" id="fn_convV">781</span><span class="fk">converters · completed Tier 2 (deposited &amp; traded 1 lot)</span></div>
+        </div>
+      </section>
+
+      <div class="join"><span>&#8595;</span></div>
+
+      <!-- STAGE 3 -->
+      <section class="card">
+        <div class="stage-head" data-tip="tier1">
+          <span class="badge">STAGE 3</span>
+          <div class="txt"><h2>First deposit &#8594; Tier 1 cashback</h2><p>Tier 1 refunds 100% of the first deposit, capped at $50. TMGM's platform minimum first deposit is $50 — so every depositor funds at least $50 and gets the full $50 back.</p></div>
+        </div>
+        <div class="grid">
+          <div class="controls">
+            <div class="field"><div class="lab"><span class="name">Typical first deposit</span><span class="hint">platform minimum is $50</span></div>
+              <div class="row"><input type="range" id="avgdep_r" min="50" max="500" step="10" /><div class="numbox"><span class="pre">$</span><input type="number" id="avgdep_n" /></div></div></div>
+            <div class="field"><div class="lab"><span class="name">Tier 1 cashback cap</span><span class="hint">max refunded per depositor</span></div>
+              <div class="row"><input type="range" id="t1cap_r" min="0" max="200" step="5" /><div class="numbox"><span class="pre">$</span><input type="number" id="t1cap_n" /></div></div></div>
+          </div>
+          <div class="viz">
+            <div class="result"><span class="big" id="o_t1per">$0</span><span class="rl">Tier 1 cashback / depositor</span></div>
+            <div class="sub-res" id="t1_subres"></div>
+            <div class="eff-box">
+              <div class="eb-row"><span>Cashback per depositor</span><b id="t1_r1">$50</b></div>
+              <div class="eb-row"><span>&#215; depositors (from Stage 1)</span><b id="t1_r2">1,302</b></div>
+              <div class="eb-row eb-eff"><span>Total Tier 1 cost</span><b id="t1_r3">$65,100</b></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="join"><span>&#215;</span></div>
+
+      <!-- STAGE 4 -->
+      <section class="card revenue">
+        <div class="stage-head" data-tip="revenue">
+          <span class="badge">STAGE 4</span>
+          <div class="txt"><h2>Trading revenue</h2><p>The margin you earn from the lots they trade — set by the product mix and account group. Uses the Promo Calculator v2 per-lot margins.</p></div>
+        </div>
+        <div class="rev-stats">
+          <div class="rev-stat"><span class="rs-k">Blended margin / std lot</span><span class="rs-v" id="o_bm">$0</span></div>
+          <div class="rev-stat rev-stat-hi"><span class="rs-k">Trading revenue</span><span class="rs-v" id="o_rev">$0</span><span class="rs-sub">total lots &#215; blended margin</span></div>
+        </div>
+        <div class="pm-bar">
+          <span class="pm-title">Product mix — what they trade. Margin per standard lot and a rough price (px) shown; both editable. Pick the account type to reflow the margins:</span>
+          <div class="seg" id="groupSeg"><button data-g="std" class="on">Standard</button><button data-g="pro">Pro</button><button data-g="ecn">ECN</button></div>
+        </div>
+        <div class="prodmix" style="margin-top:0;border-top:none;padding-top:0">
+          <div class="pm-scroll"><table class="pm-table"><thead><tr><th>Product</th><th class="num" data-tip="margin">Margin/lot</th><th class="num">Price</th><th class="num">Mix %</th><th class="num">Contribution</th></tr></thead>
+            <tbody id="mixBody"></tbody>
+            <tfoot><tr><td colspan="3">Blended margin / standard lot</td><td class="num" id="mixSumCell">100%</td><td class="num"><span class="pm-blend" id="o_bm2">$0</span></td></tr></tfoot>
+          </table></div>
+          <p class="pm-note" id="mixNote"></p>
+        </div>
+      </section>
+
+      <div class="join"><span>&#8595;</span></div>
+
+      <!-- STAGE 5 -->
+      <section class="card">
+        <div class="stage-head" data-tip="netdep">
+          <span class="badge">STAGE 5</span>
+          <div class="txt"><h2>Net deposit &amp; leverage</h2><p>How much real money comes in the door — driven by the leverage cap. Lower leverage forces a bigger deposit to trade a lot, and filters farmers.</p></div>
+        </div>
+        <div class="grid">
+          <div class="controls">
+            <div class="field"><div class="lab"><span class="name">Leverage cap</span><span class="hint">1 : X for participants</span></div>
+              <div class="row"><span style="color:var(--muted);font:600 14px var(--disp)">1 :</span><input type="range" id="lev_r" min="20" max="500" step="10" /><div class="numbox"><input type="number" id="lev_n" /></div></div></div>
+            <div class="field"><div class="lab"><span class="name">Air-ticket prize</span><span class="hint">Tier 3 · 1 winner, fixed</span></div>
+              <div class="row"><input type="range" id="air_r" min="0" max="5000" step="50" /><div class="numbox"><span class="pre">$</span><input type="number" id="air_n" /></div></div></div>
+            <div class="field"><div class="lab"><span class="name">Paid media</span><span class="hint">retargeting; owned channels free</span></div>
+              <div class="row"><input type="range" id="media_r" min="0" max="20000" step="100" /><div class="numbox"><span class="pre">$</span><input type="number" id="media_n" /></div></div></div>
+          </div>
+          <div class="viz">
+            <div class="result"><span class="big" id="o_ndper">$0</span><span class="rl">net deposit / converter</span></div>
+            <div class="sub-res">Minimum to trade 1 lot at 1 : <span id="levEcho">200</span> (margin = notional &#247; leverage). Total net deposit brought in: <b id="o_ndtot">$0</b>.</div>
+            <div class="eff-box">
+              <div class="eb-row"><span>Margin to trade 1 std lot (blended)</span><b id="nd_r1">$0</b></div>
+              <div class="eb-row"><span>&#215; converters</span><b id="nd_r2">0</b></div>
+              <div class="eb-row eb-eff"><span>Total net deposit in the door</span><b id="nd_r3">$0</b></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="join"><span>=</span></div>
+
+      <!-- STAGE 6 -->
+      <section class="card">
+        <div class="stage-head" data-tip="cost">
+          <span class="badge">STAGE 6</span>
+          <div class="txt"><h2>What it costs</h2><p>The full cost stack: both cashbacks, the air-ticket prize, and any paid media.</p></div>
+        </div>
+        <div class="total-num"><span class="big" id="o_cost">$0</span><span class="rl">total campaign cost</span></div>
+        <div class="merge">
+          <div class="mstream"><span class="mv" id="o_t1c2">$0</span><span class="mk">Tier 1 cashback</span></div>
+          <span class="plus">+</span>
+          <div class="mstream"><span class="mv" id="o_t2c">$0</span><span class="mk">Tier 2 ($50 &#215; converters)</span></div>
+          <span class="plus">+</span>
+          <div class="mstream"><span class="mv" id="o_airc">$0</span><span class="mk">Air ticket</span></div>
+          <span class="plus">+</span>
+          <div class="mstream"><span class="mv" id="o_medc">$0</span><span class="mk">Media</span></div>
+        </div>
+      </section>
+
+      <div class="join"><span>&#8595;</span></div>
+
+      <!-- STAGE 7 VERDICT -->
+      <section class="card verdict">
+        <div class="stage-head" data-tip="verdict">
+          <span class="badge">STAGE 7</span>
+          <div class="txt"><h2>The verdict</h2><p>The self-funding test: does the trading margin cover the reward? Judge the current design, then see what would flip it.</p></div>
+        </div>
+        <div class="grid">
+          <div class="controls">
+            <div class="seg" id="basisSeg"><button data-b="full" class="on">Full (T1 + T2)</button><button data-b="t2">Tier 2 only ($50)</button></div>
+            <p class="seg-note">Which reward the trading must cover: both cashbacks, or just the $50 Tier 2 (treating Tier 1 as deposit-acquisition).</p>
+            <div class="recap">
+              <div class="rc">Trading revenue<b id="rc_rev">$0</b></div>
+              <div class="rc">Net deposit in<b id="rc_nd">$0</b></div>
+              <div class="rc">Total cost<b id="rc_cost">$0</b></div>
+            </div>
+          </div>
+          <div class="viz">
+            <div class="vhero" id="vhero">
+              <span class="vstamp" id="vStamp">&#8212;</span>
+              <div class="vbig" id="vNet">$0</div>
+              <div class="vsub" id="vSub">&#8212;</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="be-strip">
+          <div class="be-stat"><span class="be-l">Coverage (rev &#247; cost)</span><span class="be-v" id="be_cov">0&#215;</span></div>
+          <div class="be-stat"><span class="be-l">Margin / converter</span><span class="be-v" id="be_mar">$0</span></div>
+          <div class="be-stat"><span class="be-l">Reward / converter</span><span class="be-v" id="be_rew">$0</span></div>
+        </div>
+
+        <div class="svtabs" id="svtabs">
+          <button data-s="lots" class="on">Lots to break even</button>
+          <button data-s="cap">Reward cap</button>
+          <button data-s="prod">Eligible at 1 lot</button>
+        </div>
+        <div class="spanel on" id="sp_lots">
+          <div class="pm-scroll"><table class="stbl"><thead><tr><th>Product</th><th>Category</th><th class="num">Margin/lot</th><th class="num">Lots to cover reward</th></tr></thead><tbody id="lotsBody"></tbody></table></div>
+          <p class="pm-note">To self-fund, each product needs at least this many lots so its margin covers the per-converter reward (<span id="rewLots">$0</span>). Green rows already clear it at the current avg-lots setting.</p>
+        </div>
+        <div class="spanel" id="sp_cap">
+          <div class="eff-box"><div class="eb-row eb-eff"><span>The most you can reward and still self-fund</span><b id="capVal" style="font-size:20px">$0</b></div></div>
+          <p class="pm-note">This is the current avg lots &#215; blended margin. Any per-converter reward at or below this is covered by the trading; above it, the promo runs at a loss on the current mix.</p>
+        </div>
+        <div class="spanel" id="sp_prod">
+          <div class="pm-scroll"><table class="stbl"><thead><tr><th>Product</th><th>Category</th><th class="num">Margin @ 1 lot</th><th class="num">Net vs reward</th></tr></thead><tbody id="prodBody"></tbody></table></div>
+          <p class="pm-note">At a flat 1-lot requirement, only the green products earn enough from a single lot to cover the reward. Everything else needs a higher lot requirement (first view) or must be excluded.</p>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      Win-Back Self-Funding Forecast &#183; Option A &#183; every figure is a live formula.<br>
+      Margins &amp; contract sizes from <b>Promo Calculator v2</b> (Ref tab). Deposit split, rates, mix and prices are editable assumptions until replaced with real data.
+    </div>
+  </footer>
+
+<style>.pm-scroll{max-height:440px;overflow-y:auto;}.prodmix .pm-scroll{max-height:none;overflow-y:visible;}</style>
+<script>
+function el(id){return document.getElementById(id);}
+function set(id,v){var e=el(id); if(e) e.textContent=v;}
+
+var PRODUCTS=[
+ {s:'AUDUSD',p:'FX',st:8.76,pr:7.76,ecn:7.76,cs:100000,px:0.66},{s:'EURUSD',p:'FX',st:7.52,pr:6.52,ecn:6.52,cs:100000,px:1.08},
+ {s:'GBPUSD',p:'FX',st:8.82,pr:7.82,ecn:7.82,cs:100000,px:1.27},{s:'NZDUSD',p:'FX',st:11.68,pr:10.68,ecn:10.68,cs:100000,px:0.61},
+ {s:'USDCAD',p:'FX',st:3.7306,pr:5.2776,ecn:7.2586,cs:100000,px:1.36},{s:'USDCHF',p:'FX',st:13.1194,pr:9.8172,ecn:8.0265,cs:100000,px:0.88},
+ {s:'USDJPY',p:'FX',st:1.6281,pr:4.0076,ecn:6.6362,cs:100000,px:150},{s:'XAGUSD',p:'Metals',st:52.59,pr:52.59,ecn:52.59,cs:1000,px:28},
+ {s:'XAUUSD',p:'Metals',st:16.97,pr:16.97,ecn:16.97,cs:100,px:2400},{s:'XPTUSD',p:'Metals',st:522,pr:522,ecn:522,cs:100,px:950},
+ {s:'XBRUSD',p:'Energy',st:2.55,pr:2.55,ecn:2.55,cs:100,px:82},{s:'XTIUSD',p:'Energy',st:1.97,pr:1.97,ecn:1.97,cs:100,px:78},
+ {s:'AUS200',p:'Indices',st:8.1088,pr:8.1088,ecn:8.1088,cs:10,px:7800},{s:'CHCUSD',p:'Indices',st:5.3692,pr:5.3692,ecn:5.3692,cs:1,px:12000},
+ {s:'HK50',p:'Indices',st:3.5586,pr:3.5586,ecn:3.5586,cs:10,px:18000},{s:'HSCHKD',p:'Indices',st:2.5679,pr:2.5679,ecn:2.5679,cs:10,px:6000},
+ {s:'JPN225',p:'Indices',st:3.1263,pr:3.1263,ecn:3.1263,cs:100,px:39000},{s:'NAS100',p:'Indices',st:6.784,pr:6.784,ecn:6.784,cs:10,px:18000},
+ {s:'US2000',p:'Indices',st:2.816,pr:2.816,ecn:2.816,cs:10,px:2000},{s:'US30',p:'Indices',st:13.624,pr:13.624,ecn:13.624,cs:10,px:39000},
+ {s:'US500',p:'Indices',st:3.183,pr:3.183,ecn:3.183,cs:10,px:5200},{s:'BCHUSD',p:'Crypto',st:9.5,pr:9.5,ecn:9.5,cs:10,px:400},
+ {s:'BNBUSD',p:'Crypto',st:8.501,pr:8.501,ecn:8.501,cs:10,px:580},{s:'BTCUSD',p:'BTC',st:12.5557,pr:12.5557,ecn:12.5557,cs:1,px:65000},
+ {s:'DOTUSD',p:'Crypto',st:1,pr:1,ecn:1,cs:100,px:7},{s:'ETHUSD',p:'Crypto',st:0.5,pr:0.5,ecn:0.5,cs:1,px:3400},
+ {s:'LTCUSD',p:'Crypto',st:0.5,pr:0.5,ecn:0.5,cs:10,px:80},{s:'TAOUSD',p:'Crypto',st:28.5,pr:28.5,ecn:28.5,cs:10,px:450},
+ {s:'TRUMPUSD',p:'Crypto',st:3.5,pr:3.5,ecn:3.5,cs:100,px:10},{s:'XRPUSD',p:'Crypto',st:0.7,pr:0.7,ecn:0.7,cs:1000,px:0.6},
+ {s:'EEM.NYS',p:'US ETF/Stock',st:0.091,pr:0.091,ecn:0.091,cs:1,px:42},{s:'EPHE.BAT',p:'US ETF/Stock',st:0.1683,pr:0.1683,ecn:0.1683,cs:1,px:28},
+ {s:'EWC.BAT',p:'US ETF/Stock',st:0.0922,pr:0.0922,ecn:0.0922,cs:1,px:40},{s:'GLD.NYS',p:'US ETF/Stock',st:0.1164,pr:0.1164,ecn:0.1164,cs:1,px:220},
+ {s:'HYG.NYS',p:'US ETF/Stock',st:0.0907,pr:0.0907,ecn:0.0907,cs:1,px:78},{s:'INDA.BAT',p:'US ETF/Stock',st:0.0932,pr:0.0932,ecn:0.0932,cs:1,px:52},
+ {s:'SPCX.NAS',p:'US ETF/Stock',st:0.5325,pr:0.5325,ecn:0.5325,cs:1,px:30},{s:'YINN.BAT',p:'US ETF/Stock',st:0.0922,pr:0.0922,ecn:0.0922,cs:1,px:12},
+ {s:'0001.HKG',p:'HK Stock',st:1.5278,pr:1.5278,ecn:1.5278,cs:100,px:45},{s:'0002.HKG',p:'HK Stock',st:1.5151,pr:1.5151,ecn:1.5151,cs:100,px:68},
+ {s:'0003.HKG',p:'HK Stock',st:0.7779,pr:0.7779,ecn:0.7779,cs:100,px:6},{s:'0005.HKG',p:'HK Stock',st:2.3351,pr:2.3351,ecn:2.3351,cs:100,px:65}
+];
+function ratio(p){return (p==='FX'||p==='Metals')?1:10;}
+function marginStd(pr,g){var per=g==='pro'?pr.pr:g==='ecn'?pr.ecn:pr.st;return per*ratio(pr.p);}
+function findP(s){for(var i=0;i<PRODUCTS.length;i++)if(PRODUCTS[i].s===s)return PRODUCTS[i];return null;}
+
+var SCEN={
+ Worst:{base:21700,resp:3,trade:40,lots:1,air:1200,media:2000,lev:200,avgDep:50,t1cap:50,mix:{XAUUSD:45,EURUSD:25,XAGUSD:10,NAS100:10,BTCUSD:10}},
+ Base:{base:21700,resp:6,trade:60,lots:1,air:1200,media:800,lev:200,avgDep:50,t1cap:50,mix:{XAUUSD:40,EURUSD:25,XAGUSD:10,NAS100:10,BTCUSD:15}},
+ Best:{base:21700,resp:10,trade:75,lots:2.5,air:1200,media:300,lev:200,avgDep:50,t1cap:50,mix:{XAUUSD:30,EURUSD:20,BTCUSD:25,US30:15,TAOUSD:10}}
+};
+var S={group:'std',basis:'full'};
+function loadScen(name){var s=SCEN[name];S.base=s.base;S.resp=s.resp;S.trade=s.trade;S.lots=s.lots;S.air=s.air;S.media=s.media;S.lev=s.lev;S.avgDep=s.avgDep;S.t1cap=s.t1cap;S.mix={};for(var k in s.mix)S.mix[k]=s.mix[k];}
+loadScen('Base');
+
+function compute(){
+  var depositors=S.base*S.resp/100, converters=depositors*S.trade/100, totalLots=converters*S.lots;
+  var t1per=Math.min(S.avgDep,S.t1cap);
+  var t1cost=depositors*t1per, t2cost=converters*50, cost=t1cost+t2cost+S.air+S.media;
+  var sw=0,spw=0,swN=0,spwN=0;
+  PRODUCTS.forEach(function(p){var w=S.mix[p.s]||0; if(w>0){sw+=w;spw+=marginStd(p,S.group)*w;swN+=w;spwN+=(p.cs*p.px*ratio(p.p)/S.lev)*w;}});
+  var bm=sw>0?spw/sw:0, mreq=swN>0?spwN/swN:0, revenue=totalLots*bm, netTot=converters*mreq;
+  var rewFull=t1per+50, reward=S.basis==='t2'?50:rewFull, marginPer=S.lots*bm;
+  var net=revenue-cost, coverage=cost>0?revenue/cost:0;
+  return {depositors:depositors,converters:converters,totalLots:totalLots,t1per:t1per,t1cost:t1cost,t2cost:t2cost,cost:cost,bm:bm,revenue:revenue,mreq:mreq,netTot:netTot,reward:reward,rewFull:rewFull,marginPer:marginPer,net:net,coverage:coverage,mixSum:sw};
+}
+
+function n0(v){return Math.round(v).toLocaleString('en-US');}
+function m0(v){return (v<0?'\u2212$':'$')+n0(Math.abs(v));}
+function m2(v){return '$'+v.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});}
+function mult(v){return (Math.round(v*100)/100).toFixed(2)+'\u00d7';}
+function fmtPct(v){return (Math.round(v*10)/10)+'%';}
+function m0d(v){return (Math.abs(v-Math.round(v))<0.005)?((v<0?'\u2212$':'$')+n0(Math.abs(v))):m2(v);}
+
+var animState={}, _rm=(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+function animateVal(id,to,fn){var e=el(id);if(!e)return;var from=animState[id]==null?to:animState[id];animState[id]=to;if(_rm||Math.abs(to-from)<0.5){e.textContent=fn(to);return;}var t0=performance.now();(function step(t){var k=Math.min((t-t0)/420,1),ee=1-Math.pow(1-k,3);e.textContent=fn(from+(to-from)*ee);if(k<1)requestAnimationFrame(step);})(t0);}
+
+function fillRange(r){var p=(r.value-r.min)/(r.max-r.min)*100;r.style.setProperty('--fill',p+'%');}
+function link(rId,nId,key,dec,comma){var r=el(rId),n=el(nId);
+  function fmtN(v){return comma?n0(v):(dec?v:Math.round(v));}
+  function setv(v){S[key]=v;r.value=v;n.value=fmtN(v);fillRange(r);}
+  r.addEventListener('input',function(){setv(parseFloat(r.value));render();});
+  n.addEventListener('input',function(){var raw=comma?(''+n.value).replace(/,/g,''):n.value;var v=parseFloat(raw);if(isNaN(v))return;S[key]=v;r.value=v;fillRange(r);render();});
+  if(comma)n.addEventListener('blur',function(){if(S[key]!=null&&!isNaN(S[key]))n.value=n0(S[key]);});
+  return setv;}
+var setters={};
+setters.base=link('base_r','base_n','base',false,true);setters.resp=link('resp_r','resp_n','resp',true);
+setters.trade=link('trade_r','trade_n','trade');setters.lots=link('lots_r','lots_n','lots',true);
+setters.air=link('air_r','air_n','air');setters.media=link('media_r','media_n','media');setters.lev=link('lev_r','lev_n','lev');
+setters.avgDep=link('avgdep_r','avgdep_n','avgDep');setters.t1cap=link('t1cap_r','t1cap_n','t1cap');
+function pushSliders(){setters.base(S.base);setters.resp(S.resp);setters.trade(S.trade);setters.lots(S.lots);setters.air(S.air);setters.media(S.media);setters.lev(S.lev);setters.avgDep(S.avgDep);setters.t1cap(S.t1cap);}
+
+function ff(name,live){return '<div class="fblock"><span class="f-name">'+name+'</span><span class="f-live">'+live+'</span></div>';}
+var TIPS={
+ stage1:{plain:"Only the KYC-verified clients who never funded are in this campaign. The response rate is the share the offer tips into a first deposit \u2014 that's who enters Tier 1.",
+   formula:function(m){return ff('verified base \u00d7 deposit response rate', n0(S.base)+' \u00d7 '+fmtPct(S.resp)+' = '+n0(m.depositors)+' depositors');},
+   qs:[["Why not the full 25,665?","Those who already deposited have no first deposit to reward, so the live target is the ~21,700 who never funded."]]},
+ stage2:{plain:"Tier 1 pays nothing until Tier 2 is done. The trade-through rate is the share of depositors who place a first trade; avg lots captures that most trade the minimum 1, some more for draw entries.",
+   formula:function(m){return ff('depositors \u00d7 trade-through rate', n0(m.depositors)+' \u00d7 '+fmtPct(S.trade)+' = '+n0(m.converters)+' converters')+ff('converters \u00d7 avg lots', n0(m.converters)+' \u00d7 '+(Math.round(S.lots*10)/10)+' = '+n0(m.totalLots)+' lots');},
+   qs:[["Why does this gate everything?","Tier 1 cashback only releases once Tier 2 is done \u2014 no trade, no payout for either tier."]]},
+ funnel:{plain:"The whole campaign in one shape: from the verified base, through those who deposit, to those who also trade. The steep taper is the honest picture \u2014 most of the base won't respond.",
+   formula:function(m){return ff('base \u2192 depositors \u2192 converters', n0(S.base)+' \u2192 '+n0(m.depositors)+' \u2192 '+n0(m.converters));},
+   qs:[["Why so steep?","A ~6% response means 94% of the base doesn't deposit. That's why converters are precious \u2014 and why cost-per-converter matters."]]},
+ tier1:{plain:"When someone makes their first deposit, we refund 100% of it as cashback \u2014 capped at $50. TMGM\'s platform minimum first deposit is $50, and the Tier 1 cap is also $50 \u2014 so every depositor funds at least $50 and gets the full $50 back.",
+   formula:function(m){return ff('Tier 1 cashback per depositor','= '+m2(m.t1per))+ff('For all '+n0(m.depositors)+' who deposited', m2(m.t1per)+' \u00d7 '+n0(m.depositors)+' = '+m0(m.t1cost)+' total');},
+   extra:{title:"Why it is a flat $50 (live)",live:function(m){var dep=S.avgDep,cap=S.t1cap,ref=Math.min(dep,cap);return '<div class="bkd-item"><span class="bkd-name">First deposit</span><span class="bkd-det">at least '+m0d(dep)+' \u2014 nobody can deposit less (TMGM system minimum)</span></div><div class="bkd-item"><span class="bkd-name">Tier 1 refund</span><span class="bkd-det">100% of the first deposit, capped at '+m0d(cap)+'</span></div><div class="bkd-avg"><span class="bkd-avg-t">So every depositor gets back</span>'+(dep>=cap?'the full '+m0d(cap)+' cap \u2014 their '+m0d(dep)+' deposit is above it':'their whole '+m0d(dep)+' deposit')+' = <b>'+m2(ref)+'</b> each</div>';}},
+   qs:[["Why is it a flat $50?","Because the platform minimum deposit ($50) equals the Tier 1 cap ($50). Everyone deposits at least $50 and the refund maxes at $50 \u2014 so it is always $50."],["Do bigger deposits earn more cashback?","No \u2014 Tier 1 caps at $50 however much they deposit. The extra just sits in their account to trade with."]]},
+ revenue:{plain:"Every lot earns the broker a margin (spread/commission) that varies by product \u2014 gold and FX earn little, BTC and platinum earn a lot. The mix sets the blend the reward must beat.",
+   formula:function(m){return ff('\u03a3 ( mix share \u00d7 margin per std lot )', 'blended '+m2(m.bm)+' per std lot')+ff('total lots \u00d7 blended margin', n0(m.totalLots)+' \u00d7 '+m2(m.bm)+' = '+m0(m.revenue)+' revenue');},
+   qs:[["Where do margins come from?","Promo Calculator v2 (Ref tab), per standard lot: \u00d71 for FX/Metals, \u00d710 otherwise."]]},
+ margin:{plain:"Margin per lot is what TMGM earns when a client trades one standard lot of that product — the spread and commission captured. It is the money the cashback has to be paid out of. It comes straight from the Promo Calculator v2 (Ref tab): the ST / PR / ECN columns, matching whichever account tab is selected above. It varies hugely — gold and FX earn a few dollars per lot, while crypto and platinum earn hundreds.",
+   formula:function(m){var g=S.group,pg=function(p){return g==='pro'?p.pr:g==='ecn'?p.ecn:p.st;};var gold=findP('XAUUSD'),nas=findP('NAS100');return ff('per-product-lot margin × lot-ratio','×1 for FX and Metals, ×10 for everything else')+ff('e.g. XAUUSD (Metals, ×1)',m2(pg(gold))+' × 1 = '+m2(marginStd(gold,g)))+ff('e.g. NAS100 (Index, ×10)',m2(pg(nas))+' × 10 = '+m2(marginStd(nas,g)));},
+   extra:{title:"Contract size — units in one lot (live)",live:function(m){var order=['FX','Metals','Energy','Indices','Crypto','BTC','US ETF/Stock','HK Stock'];var g={};PRODUCTS.forEach(function(p){(g[p.p]=g[p.p]||[]).push(p);});var rows='';order.forEach(function(cat){var arr=g[cat];if(!arr)return;var sizes={};arr.forEach(function(p){sizes[p.cs]=1;});if(Object.keys(sizes).length===1){var cs=arr[0].cs;rows+='<div class="bkd-item"><span class="bkd-name">'+cat+'</span><span class="bkd-det">'+n0(cs)+(cs===1?' unit':' units')+' per lot</span></div>';}else{var list=arr.map(function(p){return p.s+' <b>'+n0(p.cs)+'</b>';}).join('  ·  ');rows+='<div class="bkd-item"><span class="bkd-name">'+cat+' — listed each</span><span class="bkd-det cs-list">'+list+'</span></div>';}});return rows+'<div class="bkd-avg">This is the Ref tab Contract size — how many units make one lot. Uniform categories are grouped; mixed ones are listed product by product. It is baked into Margin/lot already: a bigger contract means more exposure per lot, hence more margin.</div>';}},
+   qs:[["Why ×10 for non-FX?","TMGM quotes indices, crypto, stocks and ETFs so 1 standard lot = 10 product lots. The Promo Calculator uses the same convention, so we match it."],["Does it change with the account type?","Yes — the Standard / Pro / ECN tabs switch which column is read. Most products are identical across all three; the FX pairs differ."],["Is this profit or revenue?","It is the per-lot profit margin from the Promo Calculator v2 (spread and commission captured), before the cashback cost is taken off."]]},
+ netdep:{plain:"To trade one standard lot, a client funds margin = position value \u00f7 leverage. A 1:200 cap means they fund 1/200th of the notional. Lower leverage = more real money in = harder to farm.",
+   formula:function(m){return ff('(contract size \u00d7 price \u00d7 lot-ratio) \u00f7 leverage', 'blended '+m0(m.mreq)+' / lot at 1 : '+S.lev)+ff('converters \u00d7 margin per lot', n0(m.converters)+' \u00d7 '+m0(m.mreq)+' = '+m0(m.netTot)+' net deposit');},
+   qs:[["Same as first deposit?","No \u2014 Tier 1 is the small first deposit; this is what they fund to actually trade a lot."],["Where do prices come from?","Rough placeholders (editable px column in Stage 4). Replace with dealing-desk prices."]]},
+ cost:{plain:"Everything the campaign pays: both cashbacks, the air-ticket prize, and paid media. Tier 2 is a flat $50 win or lose; Tier 1 is the blended per-depositor cashback.",
+   formula:function(m){return ff('Tier 1 + Tier 2 + air ticket + media', m0(m.t1cost)+' + '+m0(m.t2cost)+' + '+m0(S.air)+' + '+m0(S.media)+' = '+m0(m.cost));},
+   qs:[["Why $50 flat for Tier 2?","It pays 100% of the first trade win or lose, capped $50 \u2014 a fixed cost per converter."]]},
+ verdict:{plain:"The whole question in one number: does trading revenue cover the campaign cost? Green if yes, red if short. The strip below breaks it down per converter.",
+   formula:function(m){return ff('trading revenue \u2212 total cost', m0(m.revenue)+' \u2212 '+m0(m.cost)+' = '+m0(m.net))+ff('coverage = revenue \u00f7 cost', m0(m.revenue)+' \u00f7 '+m0(m.cost)+' = '+mult(m.coverage));},
+   qs:[["Why usually red?","At 1 lot, most products earn less margin than the reward. Gold ~$17, FX ~$8. Only high-margin products clear it."],["How do I fix it?","Use the three views below: lots each product needs, the reward you can afford, or products eligible at 1 lot."]]}
+};
+function tipMarkup(key,wide){var t=TIPS[key];if(!t)return '';var h='<div class="info-wrap"><button class="info-btn" type="button" aria-label="What this stage means and how it is calculated">i</button><div class="info-pop'+(wide?' vpop':'')+'"><h4>In plain words</h4><p>'+t.plain+'</p><h4>Formula</h4><div class="formula" id="fx_'+key+'"></div>';if(t.extra){h+='<h4>'+t.extra.title+'</h4><div class="tip-extra" id="xt_'+key+'"></div>';}if(t.qs){h+='<h4>Common questions</h4><ul>';t.qs.forEach(function(q){h+='<li><span class="q">'+q[0]+'</span>'+q[1]+'</li>';});h+='</ul>';}return h+'</div></div>';}
+function renderTips(m){for(var k in TIPS){var e=el('fx_'+k);if(e)e.innerHTML=TIPS[k].formula(m);var x=el('xt_'+k);if(x&&TIPS[k].extra)x.innerHTML=TIPS[k].extra.live(m);}}
+function injectTips(){
+  document.querySelectorAll('[data-tip]').forEach(function(node){node.insertAdjacentHTML('beforeend',tipMarkup(node.getAttribute('data-tip'),node.getAttribute('data-tip')==='verdict'));});
+  document.querySelectorAll('.info-btn').forEach(function(btn){btn.addEventListener('click',function(e){e.stopPropagation();var w=btn.parentNode,was=w.classList.contains('pinned');document.querySelectorAll('.info-wrap.pinned').forEach(function(x){x.classList.remove('pinned');});if(!was)w.classList.add('pinned');});});
+  document.addEventListener('click',function(){document.querySelectorAll('.info-wrap.pinned').forEach(function(x){x.classList.remove('pinned');});});
+}
+
+function buildMix(){var b=el('mixBody');b.innerHTML='';
+  PRODUCTS.forEach(function(p,i){var w=S.mix[p.s]||0;b.innerHTML+='<tr><td><span class="pm-sym">'+p.s+'</span><br><span class="pm-cls">'+p.p+' · '+n0(p.cs)+(p.cs===1?' unit':' units')+' per lot</span></td><td class="num pm-ppl" id="mm'+i+'"></td><td class="num"><span class="price-in"><input type="number" step="any" data-mixp="'+i+'" value="'+p.px+'"></span></td><td class="num"><span class="pm-mixin"><input type="number" data-mixw="'+i+'" value="'+w+'"><span class="pmsuf">%</span></span></td><td class="num"><div class="pm-contrib"><div class="pm-cbar" id="mixbar'+i+'"></div><span class="pm-cval" id="mixval'+i+'"></span></div></td></tr>';});
+  b.querySelectorAll('input[data-mixw]').forEach(function(inp){inp.addEventListener('input',function(){S.mix[PRODUCTS[+inp.getAttribute('data-mixw')].s]=parseFloat(inp.value)||0;render();});});
+  b.querySelectorAll('input[data-mixp]').forEach(function(inp){inp.addEventListener('input',function(){PRODUCTS[+inp.getAttribute('data-mixp')].px=parseFloat(inp.value)||0;render();});});
+}
+function updateMix(m){var sw=0;PRODUCTS.forEach(function(p){sw+=(S.mix[p.s]||0);});var maxc=0,contrib=[];
+  PRODUCTS.forEach(function(p,i){var w=S.mix[p.s]||0,mar=marginStd(p,S.group),c=sw>0?(w*mar/sw):0;contrib[i]=c;if(c>maxc)maxc=c;set('mm'+i,m2(mar));});
+  PRODUCTS.forEach(function(p,i){var bar=el('mixbar'+i),val=el('mixval'+i);if(bar)bar.style.width=(maxc>0?contrib[i]/maxc*100:0)+'%';if(val)val.textContent=contrib[i]>0?m2(contrib[i]):'\u2014';});
+  set('mixSumCell',(Math.round(sw*10)/10)+'%');set('o_bm2',m2(m.bm));
+  set('mixNote',Math.abs(sw-100)>0.5?'Mix totals '+(Math.round(sw*10)/10)+'% \u2014 normalised to 100% in the maths. Prices are rough placeholders (editable).':'Margins from Promo Calculator v2 (\u00d71 for FX/Metals, \u00d710 otherwise). Prices are rough placeholders \u2014 edit for precision.');
+}
+function drawFunnel(m){var base=Math.max(S.base,1),convW=Math.max(m.converters/base*100,8);
+  set('fn_baseV',n0(S.base));
+  el('fn_badge').innerHTML=n0(m.depositors)+' deposited \u00b7 '+fmtPct(S.resp);
+  el('fn_ftd').style.width=convW.toFixed(2)+'%';
+  el('fn_taper').style.clipPath='polygon(0 0,100% 0,'+(50+convW/2).toFixed(2)+'% 100%,'+(50-convW/2).toFixed(2)+'% 100%)';
+  set('fn_convV',n0(m.converters));
+}
+function drawLadder(m){set('lad_c1',n0(m.depositors));set('lad_c2',n0(m.converters));el('lad_b2').style.width=Math.max(S.trade,4)+'%';set('lad_p2',Math.round(S.trade));}
+function drawTier1(m){var dep=S.avgDep,cap=S.t1cap;
+  set('t1_r1',m0d(m.t1per));set('t1_r2',n0(m.depositors));animateVal('t1_r3',m.t1cost,m0);
+  var sr=el('t1_subres'); if(sr) sr.innerHTML=(dep>=cap?'Flat '+m0d(m.t1per)+' each \u2014 the '+m0d(dep)+' platform minimum meets the '+m0d(cap)+' cap, so every depositor gets the full refund.':m0d(m.t1per)+' each \u2014 100% of the '+m0d(dep)+' deposit, under the '+m0d(cap)+' cap.');
+}
+function renderVerdict(m){var pass=m.net>=0;el('vhero').className='vhero '+(pass?'pass':'fail');set('vStamp',pass?'Self-funds':'Runs at a loss');animateVal('vNet',m.net,m0);
+  el('vSub').innerHTML=pass?'Trading revenue covers the full cost with <b>'+m0(m.net)+'</b> to spare.':'Trading revenue falls <b>'+m0(Math.abs(m.net))+'</b> short of covering the cost.';
+  animateVal('be_cov',m.coverage,mult);animateVal('be_mar',m.marginPer,m2);animateVal('be_rew',m.reward,m2);
+  var reward=m.reward;set('rewLots',m2(reward));
+  var rows=PRODUCTS.map(function(p){var mar=marginStd(p,S.group);return {s:p.s,p:p.p,mar:mar,need:mar>0?reward/mar:Infinity};}).sort(function(a,b){return a.need-b.need;});
+  el('lotsBody').innerHTML=rows.map(function(r){var ok=r.need<=S.lots+1e-9,nd=isFinite(r.need)?(Math.round(r.need*100)/100).toFixed(2):'\u2014';return '<tr class="'+(ok?'ok':'')+'"><td class="sym">'+r.s+'</td><td class="cls">'+r.p+'</td><td class="num">'+m2(r.mar)+'</td><td class="res">'+nd+'</td></tr>';}).join('');
+  set('capVal',m2(m.marginPer));
+  var pr=PRODUCTS.map(function(p){var mar=marginStd(p,S.group);return {s:p.s,p:p.p,mar:mar,net:mar-reward};}).sort(function(a,b){return b.net-a.net;});
+  el('prodBody').innerHTML=pr.map(function(r){var ok=r.net>=0;return '<tr class="'+(ok?'ok':'')+'"><td class="sym">'+r.s+'</td><td class="cls">'+r.p+'</td><td class="num">'+m2(r.mar)+'</td><td class="res" style="color:'+(ok?'var(--teal-d)':'#C0392B')+'">'+m0(r.net)+'</td></tr>';}).join('');
+}
+function render(){var m=compute();
+  animateVal('o_dep',m.depositors,n0);animateVal('o_tr',m.converters,n0);set('o_lots',n0(m.totalLots));
+  animateVal('o_t1per',m.t1per,m2);animateVal('o_t1cost',m.t1cost,m0);
+  animateVal('o_bm',m.bm,m2);animateVal('o_rev',m.revenue,m0);
+  animateVal('o_ndper',m.mreq,m0);animateVal('o_ndtot',m.netTot,m0);set('levEcho',S.lev);
+  animateVal('nd_r1',m.mreq,m0);set('nd_r2',n0(m.converters));animateVal('nd_r3',m.netTot,m0);
+  animateVal('o_cost',m.cost,m0);animateVal('o_t1c2',m.t1cost,m0);animateVal('o_t2c',m.t2cost,m0);set('o_airc',m0(S.air));set('o_medc',m0(S.media));
+  set('rc_rev',m0(m.revenue));set('rc_nd',m0(m.netTot));set('rc_cost',m0(m.cost));
+  updateMix(m);drawFunnel(m);drawLadder(m);drawTier1(m);renderVerdict(m);renderTips(m);
+}
+document.querySelectorAll('#scenChips .chip').forEach(function(c){c.addEventListener('click',function(){document.querySelectorAll('#scenChips .chip').forEach(function(x){x.classList.remove('on');});c.classList.add('on');loadScen(c.getAttribute('data-scen'));pushSliders();buildMix();render();});});
+el('groupSeg').addEventListener('click',function(e){if(e.target.tagName!=='BUTTON')return;S.group=e.target.getAttribute('data-g');this.querySelectorAll('button').forEach(function(b){b.classList.toggle('on',b===e.target);});render();});
+el('basisSeg').addEventListener('click',function(e){if(e.target.tagName!=='BUTTON')return;S.basis=e.target.getAttribute('data-b');this.querySelectorAll('button').forEach(function(b){b.classList.toggle('on',b===e.target);});render();});
+el('svtabs').addEventListener('click',function(e){if(e.target.tagName!=='BUTTON')return;var s=e.target.getAttribute('data-s');this.querySelectorAll('button').forEach(function(b){b.classList.toggle('on',b===e.target);});el('sp_lots').classList.toggle('on',s==='lots');el('sp_cap').classList.toggle('on',s==='cap');el('sp_prod').classList.toggle('on',s==='prod');});
+
+pushSliders();buildMix();render();injectTips();renderTips(compute());
+</script>
+</body>
+</html>
