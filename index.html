@@ -119,8 +119,8 @@
   .total-num .rl{font:600 15px var(--sans);color:var(--body);}
   .merge{display:flex;align-items:center;gap:16px;margin-bottom:20px;flex-wrap:wrap;}
   .mstream{background:#F6F9FD;border:1px solid var(--line);border-radius:var(--r-sm);padding:13px 20px;min-width:158px;flex:1;}
-  .mstream .mv{font:700 26px var(--disp);font-variant-numeric:tabular-nums;display:block;letter-spacing:-.01em;}
-  .mstream .mk{font-size:12.5px;color:var(--muted);margin-top:3px;}
+  .mstream .mv{font:700 26px var(--disp);font-variant-numeric:tabular-nums;display:inline-block;letter-spacing:-.01em;}
+  .mstream .mk{font-size:12.5px;color:var(--muted);margin-top:3px;display:block;}
   .mstream.snew .mv{color:var(--accent-d);}
   .mstream.sexi .mv{color:var(--teal-d);}
   .merge .plus{font:600 24px var(--disp);color:var(--muted);}
@@ -228,9 +228,27 @@
   .pm-mixin .pmsuf{font-size:11px;color:var(--muted);padding-left:3px;}
   .pm-contrib{display:flex;align-items:center;gap:10px;justify-content:flex-end;}
   .pm-cbar{height:8px;border-radius:99px;background:var(--accent);width:0;min-width:0;transition:width .42s cubic-bezier(.4,0,.2,1);}
-  .pm-cval{font-variant-numeric:tabular-nums;color:var(--body);min-width:38px;text-align:right;font-size:12px;}
+  .pm-cval{font-variant-numeric:tabular-nums;color:var(--body);min-width:38px;text-align:right;font-size:12px;cursor:help;border-bottom:1px dashed rgba(44,95,173,.55);}
+  .pm-cval:hover{color:var(--navy);border-bottom-color:var(--accent);}
   .pm-table tfoot td{border-top:2px solid var(--line);border-bottom:none;font-weight:600;color:var(--ink);padding-top:11px;}
-  .pm-blend{color:var(--accent-d);font:700 15px var(--disp);font-variant-numeric:tabular-nums;}
+  .pm-blend{color:var(--accent-d);font:700 15px var(--disp);font-variant-numeric:tabular-nums;cursor:help;border-bottom:1px dashed rgba(44,95,173,.55);}
+  .pm-blend:hover{border-bottom-color:var(--accent);}
+  .pm-tip{position:fixed;z-index:9998;max-width:350px;max-height:76vh;overflow-y:auto;background:#0C1740;color:#EAF0FF;font:400 12px/1.5 var(--sans);padding:11px 13px;border-radius:9px;box-shadow:0 8px 26px rgba(12,23,64,.34);opacity:0;pointer-events:none;transition:opacity .12s;}
+  .pm-tip.show{opacity:1;}
+  .pm-tip b{color:#fff;font:600 12.5px var(--disp);display:block;margin-bottom:5px;}
+  .pm-tip .tip-f{font:500 12px var(--disp);color:#BFCFF5;margin:3px 0;}
+  .pm-tip .tip-r{font:700 13.5px var(--disp);color:#6FE0C8;margin:5px 0 0;}
+  .pm-tip .tip-n{font-size:11px;color:#9DB0DE;margin-top:7px;line-height:1.45;}
+  .nd-tip{cursor:help;border-bottom:1px dashed rgba(44,95,173,.55);}
+  .nd-tip:hover{border-bottom-color:var(--accent);}
+  .pm-tip.pinned{pointer-events:auto;user-select:text;-webkit-user-select:text;box-shadow:0 10px 30px rgba(12,23,64,.42);}
+  .pm-tip .tip-close{font-size:10px;color:#7E93C8;margin-top:9px;padding-top:8px;border-top:1px solid rgba(255,255,255,.14);}
+  .pm-tip .tip-div{border-top:1px solid rgba(255,255,255,.2);margin:11px 0 9px;}
+  .pm-tip .tip-sub{font:600 10px var(--sans);letter-spacing:.05em;text-transform:uppercase;color:#9DB0DE;margin-bottom:7px;}
+  .pm-tip .tip-tbl{width:100%;border-collapse:collapse;}
+  .pm-tip .tip-tbl td{padding:5px 0;font-size:12px;color:#D6E0FA;vertical-align:baseline;}
+  .pm-tip .tip-tbl td.tt-n{text-align:right;font:700 12.5px var(--disp);color:#EAF0FF;white-space:nowrap;padding-left:16px;}
+  .pm-tip .tip-tbl tr.tt-net td{border-top:1px solid rgba(255,255,255,.2);padding-top:7px;font-weight:700;color:#fff;}
   .pm-note{font-size:12px;color:var(--muted);margin-top:13px;line-height:1.55;max-width:700px;}
 
   /* cost */
@@ -243,7 +261,7 @@
   .lens b{color:var(--navy);font-weight:600;}
   .recap{display:flex;flex-wrap:wrap;gap:9px;margin-top:18px;}
   .recap .rc{background:#F6F9FD;border:1px solid var(--line);border-radius:8px;padding:9px 13px;font-size:11.5px;color:var(--muted);}
-  .recap .rc b{color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums;display:block;font:600 15px var(--disp);margin-top:2px;}
+  .recap .rc b{color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums;display:block;font:600 15px var(--disp);margin-top:2px;width:-webkit-fit-content;width:fit-content;}
   .verdict-compare{display:grid;grid-template-columns:1fr;gap:14px;margin-top:26px;}
   .vc-card{border:1px solid var(--line);border-radius:var(--r);padding:18px 20px;background:#fff;}
   .vc-rec{border:1.5px solid var(--accent);box-shadow:0 10px 26px -18px rgba(0,120,170,.55);}
@@ -300,8 +318,13 @@
   .rev-stats{display:flex;gap:16px;margin-bottom:24px;flex-wrap:wrap;align-items:stretch;}
   .rev-stat{flex:1;min-width:190px;background:#F7F9FE;border:1px solid var(--line);border-radius:12px;padding:16px 20px;display:flex;flex-direction:column;justify-content:center;}
   .rev-stat-hi{background:#EEF6FF;border-color:#CFE4FA;}
+  .bm-banner{border-radius:10px;padding:12px 16px;font-size:13px;line-height:1.5;color:var(--body);margin-bottom:20px;border:1px solid;}
+  .bm-banner.bm-good{background:#EEFBF6;border-color:#BBE7D5;}
+  .bm-banner.bm-warn{background:#FFF6EC;border-color:#F1D9B8;}
+  .bm-banner .bm-t{display:inline-block;font:700 10px var(--sans);letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin-right:8px;}
+  .bm-banner b{color:var(--ink);}
   .rs-k{display:block;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;font-weight:600;margin-bottom:6px;}
-  .rs-v{display:block;font:700 32px var(--disp);color:var(--navy);font-variant-numeric:tabular-nums;letter-spacing:-.02em;line-height:1.1;}
+  .rs-v{display:block;align-self:flex-start;font:700 32px var(--disp);color:var(--navy);font-variant-numeric:tabular-nums;letter-spacing:-.02em;line-height:1.1;}
   .rs-sub{display:block;font-size:11.5px;color:var(--body);margin-top:4px;}
   .pm-bar{display:flex;align-items:flex-start;justify-content:space-between;gap:22px;flex-wrap:wrap;margin-bottom:16px;}
   .pm-title{font-size:12.5px;color:var(--body);flex:1;min-width:240px;max-width:62ch;line-height:1.55;}
@@ -328,12 +351,12 @@
   .vhero.fail{background:#FBECEA;border-color:#E4B4AE;}
   .vhero .vstamp{display:inline-block;font:700 11px var(--disp);letter-spacing:.06em;text-transform:uppercase;color:#fff;padding:5px 11px;border-radius:99px;margin-bottom:9px;}
   .vhero.pass .vstamp{background:var(--teal-d);} .vhero.fail .vstamp{background:#C0392B;}
-  .vhero .vbig{font:700 46px/1 var(--disp);letter-spacing:-.02em;font-variant-numeric:tabular-nums;}
+  .vhero .vbig{font:700 46px/1 var(--disp);letter-spacing:-.02em;font-variant-numeric:tabular-nums;width:-webkit-fit-content;width:fit-content;}
   .vhero.pass .vbig{color:var(--teal-d);} .vhero.fail .vbig{color:#C0392B;}
   .vhero .vsub{font-size:13.5px;color:var(--body);margin-top:6px;}
   /* solver tabs */
-  .svtabs{display:inline-flex;background:#EEF2F9;border:1px solid var(--line);border-radius:99px;padding:4px;margin:20px 0 16px;}
-  .svtabs button{border:0;background:transparent;cursor:pointer;font:500 13px var(--sans);color:var(--body);padding:8px 16px;border-radius:99px;}
+  .svtabs{display:flex;background:#EEF2F9;border:1px solid var(--line);border-radius:99px;padding:4px;margin:20px 0 16px;}
+  .svtabs button{flex:1;text-align:center;border:0;background:transparent;cursor:pointer;font:500 13px var(--sans);color:var(--body);padding:8px 16px;border-radius:99px;}
   .svtabs button.on{background:#fff;color:var(--navy);font-weight:600;box-shadow:0 1px 2px rgba(12,23,64,.12);}
   .spanel{display:none;} .spanel.on{display:block;}
   .stbl{width:100%;border-collapse:collapse;font-size:13px;}
@@ -446,7 +469,7 @@
       <section class="card">
         <div class="stage-head" data-tip="tier1">
           <span class="badge">STAGE 3</span>
-          <div class="txt"><h2>First deposit &#8594; Tier 1 cashback</h2><p>Tier 1 refunds 100% of the first deposit, capped at $50. TMGM's platform minimum first deposit is $50 — so every depositor funds at least $50 and gets the full $50 back.</p></div>
+          <div class="txt"><h2>First deposit &amp; first-trade cashback</h2><p>Tier 1 refunds 100% of the first deposit (capped $50). Tier 2 refunds a losing first trade only (capped $50) — a winning first trade keeps its profit, so it costs nothing.</p></div>
         </div>
         <div class="grid">
           <div class="controls">
@@ -454,6 +477,10 @@
               <div class="row"><input type="range" id="avgdep_r" min="50" max="500" step="10" /><div class="numbox"><span class="pre">$</span><input type="number" id="avgdep_n" /></div></div></div>
             <div class="field"><div class="lab"><span class="name">Tier 1 cashback cap</span><span class="hint">max refunded per depositor</span></div>
               <div class="row"><input type="range" id="t1cap_r" min="0" max="200" step="5" /><div class="numbox"><span class="pre">$</span><input type="number" id="t1cap_n" /></div></div></div>
+            <div class="field"><div class="lab"><span class="name">First trades that lose (%)</span><span class="hint">Risk-team assumption</span></div>
+              <div class="row"><input type="range" id="losspct_r" min="0" max="100" step="5" /><div class="numbox"><input type="number" id="losspct_n" /></div></div></div>
+            <div class="field"><div class="lab"><span class="name">Avg first-trade loss</span><span class="hint">refunded, capped $50</span></div>
+              <div class="row"><input type="range" id="avgloss_r" min="0" max="50" step="5" /><div class="numbox"><span class="pre">$</span><input type="number" id="avgloss_n" /></div></div></div>
           </div>
           <div class="viz">
             <div class="result"><span class="big" id="o_t1per">$0</span><span class="rl">Tier 1 cashback / depositor</span></div>
@@ -476,19 +503,23 @@
           <div class="txt"><h2>Trading revenue</h2><p>The margin you earn from the lots they trade — set by the product mix and account group. Uses the Promo Calculator v2 per-lot margins.</p></div>
         </div>
         <div class="rev-stats">
-          <div class="rev-stat"><span class="rs-k">Blended margin / std lot</span><span class="rs-v" id="o_bm">$0</span></div>
-          <div class="rev-stat rev-stat-hi"><span class="rs-k">Trading revenue</span><span class="rs-v" id="o_rev">$0</span><span class="rs-sub">total lots &#215; blended margin</span></div>
+          <div class="rev-stat"><span class="rs-k">Blended margin / std lot</span><span class="rs-v nd-tip" id="o_bm">$0</span></div>
+          <div class="rev-stat rev-stat-hi"><span class="rs-k">Trading revenue</span><span class="rs-v nd-tip" id="o_rev">$0</span><span class="rs-sub">total lots &#215; blended margin</span></div>
         </div>
         <div class="pm-bar">
-          <span class="pm-title">Product mix — what they trade. Margin per standard lot and a rough price (px) shown; both editable. Pick the account type to reflow the margins:</span>
+          <span class="pm-title">Product mix — the eligible products clients can trade. Build the list: filter by category or search, then add a product. Only added products count toward the blended margin. Pick the account type to reflow the margins:</span>
           <div class="seg" id="groupSeg"><button data-g="std" class="on">Standard</button><button data-g="pro">Pro</button><button data-g="ecn">ECN</button></div>
         </div>
-        <div class="prodmix" style="margin-top:0;border-top:none;padding-top:0">
-          <div class="pm-scroll"><table class="pm-table"><thead><tr><th>Product</th><th class="num" data-tip="margin">Margin/lot</th><th class="num">Price</th><th class="num">Mix %</th><th class="num">Contribution</th></tr></thead>
+        <div class="picker">
+          <div class="pick-chips" id="pickChips"></div>
+          <div class="pick-searchwrap"><input type="text" id="pickSearch" placeholder="Search symbol (e.g. XAU) or category&#8230;  &#183;  Prices as of 17 Jul 2026 &#8212; edit freely. Items marked &#8220;rough&#8221; have no clean public quote yet" autocomplete="off"></div>
+          <div class="pick-listhead"><span id="pickViewLabel">All products</span><span class="pm-listhead-right"><button class="pm-reset" id="pmReset" type="button">Reset to equal %</button><span class="pick-count" id="pickCount"></span></span></div>
+          <div class="pm-scroll"><table class="pm-table"><thead><tr><th>Product</th><th class="num" data-tip="margin">Margin/lot</th><th class="num">Price</th><th class="num">Mix %</th><th class="num">Contribution</th><th class="num">Add / Remove</th></tr></thead>
             <tbody id="mixBody"></tbody>
-            <tfoot><tr><td colspan="3">Blended margin / standard lot</td><td class="num" id="mixSumCell">100%</td><td class="num"><span class="pm-blend" id="o_bm2">$0</span></td></tr></tfoot>
+            <tfoot><tr><td colspan="3">Blended margin / standard lot</td><td class="num" id="mixSumCell">100%</td><td class="num"><span class="pm-blend" id="o_bm2">$0</span></td><td></td></tr></tfoot>
           </table></div>
           <p class="pm-note" id="mixNote"></p>
+          <div id="pmTip" class="pm-tip" role="tooltip"></div>
         </div>
       </section>
 
@@ -500,22 +531,23 @@
           <span class="badge">STAGE 5</span>
           <div class="txt"><h2>Net deposit &amp; leverage</h2><p>How much real money comes in the door — driven by the leverage cap. Lower leverage forces a bigger deposit to trade a lot, and filters farmers.</p></div>
         </div>
+        <div class="nd-src" id="ndMixSrc"></div>
         <div class="grid">
           <div class="controls">
             <div class="field"><div class="lab"><span class="name">Leverage cap</span><span class="hint">1 : X for participants</span></div>
-              <div class="row"><span style="color:var(--muted);font:600 14px var(--disp)">1 :</span><input type="range" id="lev_r" min="20" max="500" step="10" /><div class="numbox"><input type="number" id="lev_n" /></div></div></div>
+              <div class="row"><span style="color:var(--muted);font:600 14px var(--disp)">1 :</span><input type="range" id="lev_r" min="20" max="1000" step="10" /><div class="numbox"><input type="number" id="lev_n" /></div></div></div>
             <div class="field"><div class="lab"><span class="name">Air-ticket prize</span><span class="hint">Tier 3 · 1 winner, fixed</span></div>
               <div class="row"><input type="range" id="air_r" min="0" max="5000" step="50" /><div class="numbox"><span class="pre">$</span><input type="number" id="air_n" /></div></div></div>
             <div class="field"><div class="lab"><span class="name">Paid media</span><span class="hint">retargeting; owned channels free</span></div>
               <div class="row"><input type="range" id="media_r" min="0" max="20000" step="100" /><div class="numbox"><span class="pre">$</span><input type="number" id="media_n" /></div></div></div>
           </div>
           <div class="viz">
-            <div class="result"><span class="big" id="o_ndper">$0</span><span class="rl">net deposit / converter</span></div>
-            <div class="sub-res">Minimum to trade 1 lot at 1 : <span id="levEcho">200</span> (margin = notional &#247; leverage). Total net deposit brought in: <b id="o_ndtot">$0</b>.</div>
+            <div class="result"><span class="big nd-tip" id="o_ndper">$0</span><span class="rl">client's own money to trade 1 lot</span></div>
+            <div class="sub-res">Minimum to trade 1 lot at 1 : <span id="levEcho">200</span> (margin = notional &#247; leverage). Total net deposit brought in: <b class="nd-tip" id="o_ndtot">$0</b>.</div>
             <div class="eff-box">
-              <div class="eb-row"><span>Margin to trade 1 std lot (blended)</span><b id="nd_r1">$0</b></div>
+              <div class="eb-row"><span>Client's own money to trade 1 std lot (blended)</span><b class="nd-tip" id="nd_r1">$0</b></div>
               <div class="eb-row"><span>&#215; converters</span><b id="nd_r2">0</b></div>
-              <div class="eb-row eb-eff"><span>Total net deposit in the door</span><b id="nd_r3">$0</b></div>
+              <div class="eb-row eb-eff"><span>Total net deposit in the door</span><b class="nd-tip" id="nd_r3">$0</b></div>
             </div>
           </div>
         </div>
@@ -529,15 +561,15 @@
           <span class="badge">STAGE 6</span>
           <div class="txt"><h2>What it costs</h2><p>The full cost stack: both cashbacks, the air-ticket prize, and any paid media.</p></div>
         </div>
-        <div class="total-num"><span class="big" id="o_cost">$0</span><span class="rl">total campaign cost</span></div>
+        <div class="total-num"><span class="big nd-tip" id="o_cost">$0</span><span class="rl">total campaign cost</span></div>
         <div class="merge">
-          <div class="mstream"><span class="mv" id="o_t1c2">$0</span><span class="mk">Tier 1 cashback</span></div>
+          <div class="mstream"><span class="mv nd-tip" id="o_t1c2">$0</span><span class="mk">Tier 1 cashback</span></div>
           <span class="plus">+</span>
-          <div class="mstream"><span class="mv" id="o_t2c">$0</span><span class="mk">Tier 2 ($50 &#215; converters)</span></div>
+          <div class="mstream"><span class="mv nd-tip" id="o_t2c">$0</span><span class="mk">Tier 2 (loss refund)</span></div>
           <span class="plus">+</span>
-          <div class="mstream"><span class="mv" id="o_airc">$0</span><span class="mk">Air ticket</span></div>
+          <div class="mstream"><span class="mv nd-tip" id="o_airc">$0</span><span class="mk">Air ticket</span></div>
           <span class="plus">+</span>
-          <div class="mstream"><span class="mv" id="o_medc">$0</span><span class="mk">Media</span></div>
+          <div class="mstream"><span class="mv nd-tip" id="o_medc">$0</span><span class="mk">Media</span></div>
         </div>
       </section>
 
@@ -551,27 +583,27 @@
         </div>
         <div class="grid">
           <div class="controls">
-            <div class="seg" id="basisSeg"><button data-b="full" class="on">Full (T1 + T2)</button><button data-b="t2">Tier 2 only ($50)</button></div>
-            <p class="seg-note">Which reward the trading must cover: both cashbacks, or just the $50 Tier 2 (treating Tier 1 as deposit-acquisition).</p>
+            <div class="seg" id="basisSeg"><button data-b="full" class="on">Full (T1 + T2)</button><button data-b="t2">Tier 2 only (loss)</button></div>
+            <p class="seg-note">Which reward the trading must cover: both cashbacks, or just the expected Tier 2 loss refund (treating Tier 1 as deposit-acquisition).</p>
             <div class="recap">
-              <div class="rc">Trading revenue<b id="rc_rev">$0</b></div>
-              <div class="rc">Net deposit in<b id="rc_nd">$0</b></div>
-              <div class="rc">Total cost<b id="rc_cost">$0</b></div>
+              <div class="rc">Trading revenue<b class="nd-tip" id="rc_rev">$0</b></div>
+              <div class="rc">Net deposit in<b class="nd-tip" id="rc_nd">$0</b></div>
+              <div class="rc">Total cost<b class="nd-tip" id="rc_cost">$0</b></div>
             </div>
           </div>
           <div class="viz">
             <div class="vhero" id="vhero">
               <span class="vstamp" id="vStamp">&#8212;</span>
-              <div class="vbig" id="vNet">$0</div>
+              <div class="vbig nd-tip" id="vNet">$0</div>
               <div class="vsub" id="vSub">&#8212;</div>
             </div>
           </div>
         </div>
 
         <div class="be-strip">
-          <div class="be-stat"><span class="be-l">Coverage (rev &#247; cost)</span><span class="be-v" id="be_cov">0&#215;</span></div>
-          <div class="be-stat"><span class="be-l">Margin / converter</span><span class="be-v" id="be_mar">$0</span></div>
-          <div class="be-stat"><span class="be-l">Reward / converter</span><span class="be-v" id="be_rew">$0</span></div>
+          <div class="be-stat"><span class="be-l">Coverage (rev &#247; cost)</span><span class="be-v nd-tip" id="be_cov">0&#215;</span></div>
+          <div class="be-stat"><span class="be-l">Margin / converter</span><span class="be-v nd-tip" id="be_mar">$0</span></div>
+          <div class="be-stat"><span class="be-l">Reward / converter</span><span class="be-v nd-tip" id="be_rew">$0</span></div>
         </div>
 
         <div class="svtabs" id="svtabs">
@@ -593,6 +625,26 @@
         </div>
       </section>
 
+      <div class="join"><span>&#8595;</span></div>
+
+      <!-- STAGE 8 COST EFFICIENCY -->
+      <section class="card costeff">
+        <div class="stage-head" data-tip="costeff">
+          <span class="badge">STAGE 8</span>
+          <div class="txt"><h2>Cost efficiency</h2><p>How much this win-back costs us to bring in each brand-new customer (someone making their very first deposit) &#8212; measured the same way as the H2 plan, so the numbers sit side by side.</p></div>
+        </div>
+        <div class="bm-banner" id="bmBanner"></div>
+        <div class="rev-stats">
+          <div class="rev-stat"><span class="rs-k">Cost to win one new customer</span><span class="rs-v nd-tip" id="ce_cpf">$0</span><span class="rs-sub" id="ce_cpf_sub">&#8212;</span></div>
+          <div class="rev-stat rev-stat-hi"><span class="rs-k">Real cost per customer, after trading income</span><span class="rs-v nd-tip" id="ce_ncpf">$0</span><span class="rs-sub" id="ce_ncpf_sub">&#8212;</span></div>
+        </div>
+        <div class="be-strip">
+          <div class="be-stat"><span class="be-l">Ad spend per new customer</span><span class="be-v nd-tip" id="ce_mpf">$0</span></div>
+          <div class="be-stat"><span class="be-l">Cost per customer who trades</span><span class="be-v nd-tip" id="ce_cpc">$0</span></div>
+          <div class="be-stat"><span class="be-l">Cost per lot traded</span><span class="be-v nd-tip" id="ce_cpl">$0</span></div>
+        </div>
+      </section>
+
     </div>
   </main>
 
@@ -603,57 +655,107 @@
     </div>
   </footer>
 
-<style>.pm-scroll{max-height:440px;overflow-y:auto;}.prodmix .pm-scroll{max-height:none;overflow-y:visible;}</style>
+<style>.pm-scroll{max-height:440px;overflow-y:auto;}.prodmix .pm-scroll{max-height:none;overflow-y:visible;}
+.picker{margin-bottom:2px;}
+.pick-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;}
+.pick-chip{border:1.5px solid var(--line);background:#fff;border-radius:99px;padding:7px 13px;cursor:pointer;font:600 12.5px var(--sans);color:var(--body);transition:.15s;display:inline-flex;align-items:center;gap:6px;}
+.pick-chip:hover{border-color:var(--accent);color:var(--navy);}
+.pick-chip.on{background:var(--navy);border-color:var(--navy);color:#fff;}
+.pick-chip .pc-n{font:600 11px var(--disp);opacity:.7;background:rgba(0,0,0,.08);border-radius:99px;padding:1px 6px;}
+.pick-chip.on .pc-n{background:rgba(255,255,255,.22);opacity:.95;}
+.pick-chip-elig{border-color:#BFE9E1;color:#0B7A6B;}
+.pick-chip-elig:hover{border-color:var(--teal);color:#0B7A6B;}
+.pick-chip-elig.on{background:var(--teal);border-color:var(--teal);color:#fff;}
+.pick-chip-elig .pc-n{background:rgba(11,122,107,.12);color:#0B7A6B;}
+.pick-chip-elig.on .pc-n{background:rgba(255,255,255,.24);color:#fff;}
+.pick-searchwrap{margin-bottom:12px;}
+.pick-searchwrap input{width:100%;box-sizing:border-box;border:1.5px solid var(--line);border-radius:9px;padding:11px 14px;font:400 14px var(--sans);color:var(--ink);background:#fff;outline:none;transition:.15s;}
+.pick-searchwrap input::placeholder{font-family:var(--sans);font-size:11.5px;font-weight:400;color:var(--muted);opacity:1;letter-spacing:0;}
+.pick-searchwrap input::-webkit-input-placeholder{font-family:var(--sans);font-size:11.5px;font-weight:400;color:var(--muted);}
+.pick-searchwrap input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,179,235,.14);}
+.pick-listhead{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:9px;}
+.pick-listhead span:first-child{font:600 10.5px var(--sans);letter-spacing:.05em;text-transform:uppercase;color:var(--muted);}
+.pick-count{font-size:11.5px;color:var(--muted);}
+.pick-list{display:flex;flex-wrap:wrap;gap:8px;max-height:190px;overflow-y:auto;padding:2px;}
+.pick-item{display:inline-flex;align-items:center;gap:9px;border:1.5px solid var(--line);background:#fff;border-radius:9px;padding:8px 11px;cursor:pointer;transition:.14s;text-align:left;}
+.pick-item:hover{border-color:var(--teal);background:#F0FBF9;transform:translateY(-1px);}
+.pi-sym{font:600 12.5px var(--disp);color:var(--ink);}
+.pi-cat{font-size:10.5px;color:var(--muted);}
+.pi-mar{font:600 11px var(--disp);color:#0B7A6B;}
+.pi-plus{font:700 15px var(--disp);color:var(--teal);width:16px;text-align:center;}
+.pick-none{font-size:12.5px;color:var(--muted);padding:10px 2px;}
+.pm-datestamp{font:600 11.5px var(--sans);color:#0B7A6B;background:#EEFBF8;border:1px solid #CBEEE7;border-radius:7px;padding:8px 12px;margin-bottom:14px;display:inline-block;}
+.pm-rm{border:1.5px solid var(--line);background:#fff;color:var(--muted);width:26px;height:26px;border-radius:7px;cursor:pointer;font:600 15px var(--disp);line-height:1;transition:.14s;padding:0;}
+.pm-rm:hover{border-color:#C0392B;color:#C0392B;background:#FDF3F2;}
+.pm-empty{text-align:center;color:var(--muted);font-size:13px;padding:18px 0!important;}
+.pm-listhead-right{display:inline-flex;align-items:center;gap:12px;}
+.pm-reset{border:1.5px solid var(--line);background:#fff;color:var(--body);border-radius:7px;padding:5px 11px;cursor:pointer;font:600 11.5px var(--sans);transition:.14s;white-space:nowrap;}
+.pm-reset:hover{border-color:var(--accent);color:var(--navy);}
+.pm-added{border:1.5px solid #CBEEE7;background:#EEFBF8;color:#0B7A6B;border-radius:7px;padding:5px 10px;cursor:pointer;font:600 11.5px var(--sans);white-space:nowrap;transition:.14s;}
+.pm-added:hover{border-color:#C0392B;color:#C0392B;background:#FDF3F2;}
+.nd-src{display:inline-block;font:600 11.5px var(--sans);color:#0B7A6B;background:#EEFBF8;border:1px solid #CBEEE7;border-radius:7px;padding:6px 12px;margin-bottom:20px;}
+.pm-dash{color:var(--muted);}
+.pm-add{border:1.5px solid var(--teal);background:#fff;color:#0B7A6B;border-radius:7px;padding:5px 11px;cursor:pointer;font:600 12px var(--sans);transition:.14s;white-space:nowrap;}
+.pm-add:hover{background:var(--teal);color:#fff;}
+tr.pm-in{background:#F4FBFA;}
+tr.pm-in td{border-bottom-color:#DDF0EC;}
+.pm-table{min-width:620px;}
+.pr-rough{display:inline-block;font:600 9px var(--sans);letter-spacing:.04em;text-transform:uppercase;color:#9A6A00;background:#FFF4DC;border:1px solid #F0DFB0;border-radius:4px;padding:1px 5px;margin-left:5px;vertical-align:middle;}
+.pr-pf{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--teal);margin-right:5px;vertical-align:middle;}
+.fly-pill{position:fixed;z-index:9999;background:var(--navy);color:#fff;font:600 12px var(--disp);padding:5px 11px;border-radius:99px;pointer-events:none;transition:transform .52s cubic-bezier(.4,0,.2,1),opacity .52s;box-shadow:0 5px 16px rgba(12,23,64,.32);}
+.pop{animation:popp .28s ease;}
+@keyframes popp{0%{transform:scale(1)}42%{transform:scale(1.13)}100%{transform:scale(1)}}</style>
 <script>
 function el(id){return document.getElementById(id);}
 function set(id,v){var e=el(id); if(e) e.textContent=v;}
 
 var PRODUCTS=[
- {s:'AUDUSD',p:'FX',st:8.76,pr:7.76,ecn:7.76,cs:100000,px:0.66},{s:'EURUSD',p:'FX',st:7.52,pr:6.52,ecn:6.52,cs:100000,px:1.08},
- {s:'GBPUSD',p:'FX',st:8.82,pr:7.82,ecn:7.82,cs:100000,px:1.27},{s:'NZDUSD',p:'FX',st:11.68,pr:10.68,ecn:10.68,cs:100000,px:0.61},
- {s:'USDCAD',p:'FX',st:3.7306,pr:5.2776,ecn:7.2586,cs:100000,px:1.36},{s:'USDCHF',p:'FX',st:13.1194,pr:9.8172,ecn:8.0265,cs:100000,px:0.88},
- {s:'USDJPY',p:'FX',st:1.6281,pr:4.0076,ecn:6.6362,cs:100000,px:150},{s:'XAGUSD',p:'Metals',st:52.59,pr:52.59,ecn:52.59,cs:1000,px:28},
- {s:'XAUUSD',p:'Metals',st:16.97,pr:16.97,ecn:16.97,cs:100,px:2400},{s:'XPTUSD',p:'Metals',st:522,pr:522,ecn:522,cs:100,px:950},
- {s:'XBRUSD',p:'Energy',st:2.55,pr:2.55,ecn:2.55,cs:100,px:82},{s:'XTIUSD',p:'Energy',st:1.97,pr:1.97,ecn:1.97,cs:100,px:78},
- {s:'AUS200',p:'Indices',st:8.1088,pr:8.1088,ecn:8.1088,cs:10,px:7800},{s:'CHCUSD',p:'Indices',st:5.3692,pr:5.3692,ecn:5.3692,cs:1,px:12000},
- {s:'HK50',p:'Indices',st:3.5586,pr:3.5586,ecn:3.5586,cs:10,px:18000},{s:'HSCHKD',p:'Indices',st:2.5679,pr:2.5679,ecn:2.5679,cs:10,px:6000},
- {s:'JPN225',p:'Indices',st:3.1263,pr:3.1263,ecn:3.1263,cs:100,px:39000},{s:'NAS100',p:'Indices',st:6.784,pr:6.784,ecn:6.784,cs:10,px:18000},
- {s:'US2000',p:'Indices',st:2.816,pr:2.816,ecn:2.816,cs:10,px:2000},{s:'US30',p:'Indices',st:13.624,pr:13.624,ecn:13.624,cs:10,px:39000},
- {s:'US500',p:'Indices',st:3.183,pr:3.183,ecn:3.183,cs:10,px:5200},{s:'BCHUSD',p:'Crypto',st:9.5,pr:9.5,ecn:9.5,cs:10,px:400},
- {s:'BNBUSD',p:'Crypto',st:8.501,pr:8.501,ecn:8.501,cs:10,px:580},{s:'BTCUSD',p:'BTC',st:12.5557,pr:12.5557,ecn:12.5557,cs:1,px:65000},
- {s:'DOTUSD',p:'Crypto',st:1,pr:1,ecn:1,cs:100,px:7},{s:'ETHUSD',p:'Crypto',st:0.5,pr:0.5,ecn:0.5,cs:1,px:3400},
- {s:'LTCUSD',p:'Crypto',st:0.5,pr:0.5,ecn:0.5,cs:10,px:80},{s:'TAOUSD',p:'Crypto',st:28.5,pr:28.5,ecn:28.5,cs:10,px:450},
- {s:'TRUMPUSD',p:'Crypto',st:3.5,pr:3.5,ecn:3.5,cs:100,px:10},{s:'XRPUSD',p:'Crypto',st:0.7,pr:0.7,ecn:0.7,cs:1000,px:0.6},
+ {s:'AUDUSD',p:'FX',st:8.76,pr:7.76,ecn:7.76,cs:100000,px:0.6986,pf:1},{s:'EURUSD',p:'FX',st:7.52,pr:6.52,ecn:6.52,cs:100000,px:1.1446,pf:1},
+ {s:'GBPUSD',p:'FX',st:8.82,pr:7.82,ecn:7.82,cs:100000,px:1.3452,pf:1},{s:'NZDUSD',p:'FX',st:11.68,pr:10.68,ecn:10.68,cs:100000,px:0.5847,pf:1},
+ {s:'USDCAD',p:'FX',st:3.7306,pr:5.2776,ecn:7.2586,cs:100000,px:1.4020,pf:1},{s:'USDCHF',p:'FX',st:13.1194,pr:9.8172,ecn:8.0265,cs:100000,px:0.8069,pf:1},
+ {s:'USDJPY',p:'FX',st:1.6281,pr:4.0076,ecn:6.6362,cs:100000,px:162.35,pf:1},{s:'XAGUSD',p:'Metals',st:52.59,pr:52.59,ecn:52.59,cs:1000,px:55.5,pf:1},
+ {s:'XAUUSD',p:'Metals',st:16.97,pr:16.97,ecn:16.97,cs:100,px:4010,pf:1},{s:'XPTUSD',p:'Metals',st:522,pr:522,ecn:522,cs:100,px:950},
+ {s:'XBRUSD',p:'Energy',st:2.55,pr:2.55,ecn:2.55,cs:100,px:84,pf:1},{s:'XTIUSD',p:'Energy',st:1.97,pr:1.97,ecn:1.97,cs:100,px:79,pf:1},
+ {s:'AUS200',p:'Indices',st:8.1088,pr:8.1088,ecn:8.1088,cs:10,px:8790,pf:1},{s:'CHCUSD',p:'Indices',st:5.3692,pr:5.3692,ecn:5.3692,cs:1,px:12000},
+ {s:'HK50',p:'Indices',st:3.5586,pr:3.5586,ecn:3.5586,cs:10,px:24600,pf:1},{s:'HSCHKD',p:'Indices',st:2.5679,pr:2.5679,ecn:2.5679,cs:10,px:6000},
+ {s:'JPN225',p:'Indices',st:3.1263,pr:3.1263,ecn:3.1263,cs:100,px:64000,pf:1},{s:'NAS100',p:'Indices',st:6.784,pr:6.784,ecn:6.784,cs:10,px:28592,pf:1},
+ {s:'US2000',p:'Indices',st:2.816,pr:2.816,ecn:2.816,cs:10,px:2962,pf:1},{s:'US30',p:'Indices',st:13.624,pr:13.624,ecn:13.624,cs:10,px:52146,pf:1},
+ {s:'US500',p:'Indices',st:3.183,pr:3.183,ecn:3.183,cs:10,px:7457,pf:1},{s:'BCHUSD',p:'Crypto',st:9.5,pr:9.5,ecn:9.5,cs:10,px:439,pf:1},
+ {s:'BNBUSD',p:'Crypto',st:8.501,pr:8.501,ecn:8.501,cs:10,px:566.8,pf:1},{s:'BTCUSD',p:'BTC',st:12.5557,pr:12.5557,ecn:12.5557,cs:1,px:63900,pf:1},
+ {s:'DOTUSD',p:'Crypto',st:1,pr:1,ecn:1,cs:100,px:0.86,pf:1},{s:'ETHUSD',p:'Crypto',st:0.5,pr:0.5,ecn:0.5,cs:1,px:1840,pf:1},
+ {s:'LTCUSD',p:'Crypto',st:0.5,pr:0.5,ecn:0.5,cs:10,px:46,pf:1},{s:'TAOUSD',p:'Crypto',st:28.5,pr:28.5,ecn:28.5,cs:10,px:192,pf:1},
+ {s:'TRUMPUSD',p:'Crypto',st:3.5,pr:3.5,ecn:3.5,cs:100,px:10},{s:'XRPUSD',p:'Crypto',st:0.7,pr:0.7,ecn:0.7,cs:1000,px:1.09,pf:1},
  {s:'EEM.NYS',p:'US ETF/Stock',st:0.091,pr:0.091,ecn:0.091,cs:1,px:42},{s:'EPHE.BAT',p:'US ETF/Stock',st:0.1683,pr:0.1683,ecn:0.1683,cs:1,px:28},
- {s:'EWC.BAT',p:'US ETF/Stock',st:0.0922,pr:0.0922,ecn:0.0922,cs:1,px:40},{s:'GLD.NYS',p:'US ETF/Stock',st:0.1164,pr:0.1164,ecn:0.1164,cs:1,px:220},
+ {s:'EWC.BAT',p:'US ETF/Stock',st:0.0922,pr:0.0922,ecn:0.0922,cs:1,px:40},{s:'GLD.NYS',p:'US ETF/Stock',st:0.1164,pr:0.1164,ecn:0.1164,cs:1,px:385},
  {s:'HYG.NYS',p:'US ETF/Stock',st:0.0907,pr:0.0907,ecn:0.0907,cs:1,px:78},{s:'INDA.BAT',p:'US ETF/Stock',st:0.0932,pr:0.0932,ecn:0.0932,cs:1,px:52},
  {s:'SPCX.NAS',p:'US ETF/Stock',st:0.5325,pr:0.5325,ecn:0.5325,cs:1,px:30},{s:'YINN.BAT',p:'US ETF/Stock',st:0.0922,pr:0.0922,ecn:0.0922,cs:1,px:12},
  {s:'0001.HKG',p:'HK Stock',st:1.5278,pr:1.5278,ecn:1.5278,cs:100,px:45},{s:'0002.HKG',p:'HK Stock',st:1.5151,pr:1.5151,ecn:1.5151,cs:100,px:68},
  {s:'0003.HKG',p:'HK Stock',st:0.7779,pr:0.7779,ecn:0.7779,cs:100,px:6},{s:'0005.HKG',p:'HK Stock',st:2.3351,pr:2.3351,ecn:2.3351,cs:100,px:65}
 ];
+var PRICES_DATE='17 Jul 2026';
 function ratio(p){return (p==='FX'||p==='Metals')?1:10;}
 function marginStd(pr,g){var per=g==='pro'?pr.pr:g==='ecn'?pr.ecn:pr.st;return per*ratio(pr.p);}
 function findP(s){for(var i=0;i<PRODUCTS.length;i++)if(PRODUCTS[i].s===s)return PRODUCTS[i];return null;}
 
 var SCEN={
- Worst:{base:21700,resp:3,trade:40,lots:1,air:1200,media:2000,lev:200,avgDep:50,t1cap:50,mix:{XAUUSD:45,EURUSD:25,XAGUSD:10,NAS100:10,BTCUSD:10}},
- Base:{base:21700,resp:6,trade:60,lots:1,air:1200,media:800,lev:200,avgDep:50,t1cap:50,mix:{XAUUSD:40,EURUSD:25,XAGUSD:10,NAS100:10,BTCUSD:15}},
- Best:{base:21700,resp:10,trade:75,lots:2.5,air:1200,media:300,lev:200,avgDep:50,t1cap:50,mix:{XAUUSD:30,EURUSD:20,BTCUSD:25,US30:15,TAOUSD:10}}
+ Worst:{base:21700,resp:3,trade:40,lots:1,air:1200,media:2000,lev:200,avgDep:50,t1cap:50,lossRate:60,avgLoss:40,mix:{XAUUSD:45,EURUSD:25,XAGUSD:10,NAS100:10,BTCUSD:10}},
+ Base:{base:21700,resp:6,trade:60,lots:1,air:1200,media:800,lev:200,avgDep:50,t1cap:50,lossRate:50,avgLoss:30,mix:{XAUUSD:40,EURUSD:25,XAGUSD:10,NAS100:10,BTCUSD:15}},
+ Best:{base:21700,resp:10,trade:75,lots:2.5,air:1200,media:300,lev:200,avgDep:50,t1cap:50,lossRate:40,avgLoss:25,mix:{XAUUSD:30,EURUSD:20,BTCUSD:25,US30:15,TAOUSD:10}}
 };
-var S={group:'std',basis:'full'};
-function loadScen(name){var s=SCEN[name];S.base=s.base;S.resp=s.resp;S.trade=s.trade;S.lots=s.lots;S.air=s.air;S.media=s.media;S.lev=s.lev;S.avgDep=s.avgDep;S.t1cap=s.t1cap;S.mix={};for(var k in s.mix)S.mix[k]=s.mix[k];}
+var S={group:'std',basis:'full',pickerCat:'All',pickerQ:''};
+function loadScen(name){var s=SCEN[name];S.base=s.base;S.resp=s.resp;S.trade=s.trade;S.lots=s.lots;S.air=s.air;S.media=s.media;S.lev=s.lev;S.avgDep=s.avgDep;S.t1cap=s.t1cap;S.lossRate=s.lossRate;S.avgLoss=s.avgLoss;}
 loadScen('Base');
 
 function compute(){
   var depositors=S.base*S.resp/100, converters=depositors*S.trade/100, totalLots=converters*S.lots;
   var t1per=Math.min(S.avgDep,S.t1cap);
-  var t1cost=depositors*t1per, t2cost=converters*50, cost=t1cost+t2cost+S.air+S.media;
+  var t1cost=depositors*t1per, t2per=Math.min(S.avgLoss,50), t2exp=(S.lossRate/100)*t2per, t2cost=converters*t2exp, cost=t1cost+t2cost+S.air+S.media;
   var sw=0,spw=0,swN=0,spwN=0;
   PRODUCTS.forEach(function(p){var w=S.mix[p.s]||0; if(w>0){sw+=w;spw+=marginStd(p,S.group)*w;swN+=w;spwN+=(p.cs*p.px*ratio(p.p)/S.lev)*w;}});
   var bm=sw>0?spw/sw:0, mreq=swN>0?spwN/swN:0, revenue=totalLots*bm, netTot=converters*mreq;
-  var rewFull=t1per+50, reward=S.basis==='t2'?50:rewFull, marginPer=S.lots*bm;
+  var rewFull=t1per+t2exp, reward=S.basis==='t2'?t2exp:rewFull, marginPer=S.lots*bm;
   var net=revenue-cost, coverage=cost>0?revenue/cost:0;
-  return {depositors:depositors,converters:converters,totalLots:totalLots,t1per:t1per,t1cost:t1cost,t2cost:t2cost,cost:cost,bm:bm,revenue:revenue,mreq:mreq,netTot:netTot,reward:reward,rewFull:rewFull,marginPer:marginPer,net:net,coverage:coverage,mixSum:sw};
+  return {depositors:depositors,converters:converters,totalLots:totalLots,t1per:t1per,t1cost:t1cost,t2cost:t2cost,t2exp:t2exp,t2per:t2per,cost:cost,bm:bm,revenue:revenue,mreq:mreq,netTot:netTot,reward:reward,rewFull:rewFull,marginPer:marginPer,net:net,coverage:coverage,mixSum:sw};
 }
 
 function n0(v){return Math.round(v).toLocaleString('en-US');}
@@ -678,8 +780,8 @@ var setters={};
 setters.base=link('base_r','base_n','base',false,true);setters.resp=link('resp_r','resp_n','resp',true);
 setters.trade=link('trade_r','trade_n','trade');setters.lots=link('lots_r','lots_n','lots',true);
 setters.air=link('air_r','air_n','air');setters.media=link('media_r','media_n','media');setters.lev=link('lev_r','lev_n','lev');
-setters.avgDep=link('avgdep_r','avgdep_n','avgDep');setters.t1cap=link('t1cap_r','t1cap_n','t1cap');
-function pushSliders(){setters.base(S.base);setters.resp(S.resp);setters.trade(S.trade);setters.lots(S.lots);setters.air(S.air);setters.media(S.media);setters.lev(S.lev);setters.avgDep(S.avgDep);setters.t1cap(S.t1cap);}
+setters.avgDep=link('avgdep_r','avgdep_n','avgDep');setters.t1cap=link('t1cap_r','t1cap_n','t1cap');setters.lossRate=link('losspct_r','losspct_n','lossRate');setters.avgLoss=link('avgloss_r','avgloss_n','avgLoss');
+function pushSliders(){setters.base(S.base);setters.resp(S.resp);setters.trade(S.trade);setters.lots(S.lots);setters.air(S.air);setters.media(S.media);setters.lev(S.lev);setters.avgDep(S.avgDep);setters.t1cap(S.t1cap);setters.lossRate(S.lossRate);setters.avgLoss(S.avgLoss);}
 
 function ff(name,live){return '<div class="fblock"><span class="f-name">'+name+'</span><span class="f-live">'+live+'</span></div>';}
 var TIPS={
@@ -705,13 +807,16 @@ var TIPS={
    qs:[["Why ×10 for non-FX?","TMGM quotes indices, crypto, stocks and ETFs so 1 standard lot = 10 product lots. The Promo Calculator uses the same convention, so we match it."],["Does it change with the account type?","Yes — the Standard / Pro / ECN tabs switch which column is read. Most products are identical across all three; the FX pairs differ."],["Is this profit or revenue?","It is the per-lot profit margin from the Promo Calculator v2 (spread and commission captured), before the cashback cost is taken off."]]},
  netdep:{plain:"To trade one standard lot, a client funds margin = position value \u00f7 leverage. A 1:200 cap means they fund 1/200th of the notional. Lower leverage = more real money in = harder to farm.",
    formula:function(m){return ff('(contract size \u00d7 price \u00d7 lot-ratio) \u00f7 leverage', 'blended '+m0(m.mreq)+' / lot at 1 : '+S.lev)+ff('converters \u00d7 margin per lot', n0(m.converters)+' \u00d7 '+m0(m.mreq)+' = '+m0(m.netTot)+' net deposit');},
-   qs:[["Same as first deposit?","No \u2014 Tier 1 is the small first deposit; this is what they fund to actually trade a lot."],["Where do prices come from?","Rough placeholders (editable px column in Stage 4). Replace with dealing-desk prices."]]},
- cost:{plain:"Everything the campaign pays: both cashbacks, the air-ticket prize, and paid media. Tier 2 is a flat $50 win or lose; Tier 1 is the blended per-depositor cashback.",
-   formula:function(m){return ff('Tier 1 + Tier 2 + air ticket + media', m0(m.t1cost)+' + '+m0(m.t2cost)+' + '+m0(S.air)+' + '+m0(S.media)+' = '+m0(m.cost));},
-   qs:[["Why $50 flat for Tier 2?","It pays 100% of the first trade win or lose, capped $50 \u2014 a fixed cost per converter."]]},
+   qs:[["Same as first deposit?","No \u2014 Tier 1 is the small first deposit; this is what they fund to actually trade a lot."],["Where do prices come from?","Built-in prices as of 17 Jul 2026 (editable px column in Stage 4). Products without a clean public quote are marked \u201crough\u201d \u2014 replace those with dealing-desk prices."]]},
+ cost:{plain:"Everything the campaign pays: both cashbacks, the air-ticket prize, and paid media. Tier 2 refunds a losing first trade only (100% of the loss, capped $50) \u2014 so it costs only when the first trade loses; Tier 1 is the per-depositor cashback.",
+   formula:function(m){return ff('Tier 2 = converters \u00d7 loss-rate \u00d7 avg loss', n0(m.converters)+' \u00d7 '+fmtPct(S.lossRate)+' \u00d7 '+m2(m.t2per)+' = '+m0(m.t2cost))+ff('Tier 1 + Tier 2 + air ticket + media', m0(m.t1cost)+' + '+m0(m.t2cost)+' + '+m0(S.air)+' + '+m0(S.media)+' = '+m0(m.cost));},
+   qs:[["How is Tier 2 costed now?","Only losing first trades are refunded (100% of the loss, capped $50). Cost = converters \u00d7 loss-rate \u00d7 average loss \u2014 not a flat $50. The loss-rate is a Risk-team assumption you set in Stage 3."],["What about winning first trades?","Nothing \u2014 a winning first trade keeps its profit, so Tier 2 pays only on losses."]]},
  verdict:{plain:"The whole question in one number: does trading revenue cover the campaign cost? Green if yes, red if short. The strip below breaks it down per converter.",
    formula:function(m){return ff('trading revenue \u2212 total cost', m0(m.revenue)+' \u2212 '+m0(m.cost)+' = '+m0(m.net))+ff('coverage = revenue \u00f7 cost', m0(m.revenue)+' \u00f7 '+m0(m.cost)+' = '+mult(m.coverage));},
-   qs:[["Why usually red?","At 1 lot, most products earn less margin than the reward. Gold ~$17, FX ~$8. Only high-margin products clear it."],["How do I fix it?","Use the three views below: lots each product needs, the reward you can afford, or products eligible at 1 lot."]]}
+   qs:[["Why usually red?","At 1 lot, most products earn less margin than the reward. Gold ~$17, FX ~$8. Only high-margin products clear it."],["How do I fix it?","Use the three views below: lots each product needs, the reward you can afford, or products eligible at 1 lot."]]},
+ costeff:{plain:"How much this win-back costs us to bring in each brand-new customer, measured the same way as the H2 plan. Most of these figures stay the same whatever products are traded; only the \u2018real cost after trading income\u2019 one changes with the mix, because it takes off what trading brings in.",
+   formula:function(m){var dep=m.depositors;return ff('Cost per new customer = total cost \u00f7 new customers', m0(m.cost)+' \u00f7 '+n0(dep)+' = '+m2(dep>0?m.cost/dep:0))+ff('Real cost after trading = (total cost \u2212 trading income) \u00f7 new customers', '('+m0(m.cost)+' \u2212 '+m0(m.revenue)+') \u00f7 '+n0(dep)+' = '+m2(dep>0?(m.cost-m.revenue)/dep:0));},
+   qs:[["How does it compare to the plan?","So far this year it has cost us about $101.5 to win each new customer ($70.1 in our best month, March). This win-back brings one in for less \u2014 and once their trading income is counted, often at a small profit."],["Why is it so cheap?","These people already passed our ID checks \u2014 we only pay to wake them up and get them trading, not to find them."]]}
 };
 function tipMarkup(key,wide){var t=TIPS[key];if(!t)return '';var h='<div class="info-wrap"><button class="info-btn" type="button" aria-label="What this stage means and how it is calculated">i</button><div class="info-pop'+(wide?' vpop':'')+'"><h4>In plain words</h4><p>'+t.plain+'</p><h4>Formula</h4><div class="formula" id="fx_'+key+'"></div>';if(t.extra){h+='<h4>'+t.extra.title+'</h4><div class="tip-extra" id="xt_'+key+'"></div>';}if(t.qs){h+='<h4>Common questions</h4><ul>';t.qs.forEach(function(q){h+='<li><span class="q">'+q[0]+'</span>'+q[1]+'</li>';});h+='</ul>';}return h+'</div></div>';}
 function renderTips(m){for(var k in TIPS){var e=el('fx_'+k);if(e)e.innerHTML=TIPS[k].formula(m);var x=el('xt_'+k);if(x&&TIPS[k].extra)x.innerHTML=TIPS[k].extra.live(m);}}
@@ -721,16 +826,174 @@ function injectTips(){
   document.addEventListener('click',function(){document.querySelectorAll('.info-wrap.pinned').forEach(function(x){x.classList.remove('pinned');});});
 }
 
-function buildMix(){var b=el('mixBody');b.innerHTML='';
-  PRODUCTS.forEach(function(p,i){var w=S.mix[p.s]||0;b.innerHTML+='<tr><td><span class="pm-sym">'+p.s+'</span><br><span class="pm-cls">'+p.p+' · '+n0(p.cs)+(p.cs===1?' unit':' units')+' per lot</span></td><td class="num pm-ppl" id="mm'+i+'"></td><td class="num"><span class="price-in"><input type="number" step="any" data-mixp="'+i+'" value="'+p.px+'"></span></td><td class="num"><span class="pm-mixin"><input type="number" data-mixw="'+i+'" value="'+w+'"><span class="pmsuf">%</span></span></td><td class="num"><div class="pm-contrib"><div class="pm-cbar" id="mixbar'+i+'"></div><span class="pm-cval" id="mixval'+i+'"></span></div></td></tr>';});
+var PICK_CHIPS=['All','FX','Commodities','Crypto','Indices','US ETF/Stock','HK Stock'];
+function chipCat(p){return p==='FX'?'FX':(p==='Metals'||p==='Energy')?'Commodities':(p==='Crypto'||p==='BTC')?'Crypto':p==='Indices'?'Indices':p==='US ETF/Stock'?'US ETF/Stock':'HK Stock';}
+function tabProducts(cat){if(cat==='Eligible')return PRODUCTS.filter(function(p){return Object.prototype.hasOwnProperty.call(TAB_W['Eligible'],p.s);});return cat==='All'?PRODUCTS.slice():PRODUCTS.filter(function(p){return chipCat(p.p)===cat;});}
+function equalWeights(cat){var arr=tabProducts(cat),w={};if(!arr.length)return w;var v=Math.round(100/arr.length*100)/100;arr.forEach(function(p){w[p.s]=v;});return w;}
+var TAB_W={};PICK_CHIPS.forEach(function(c){TAB_W[c]=equalWeights(c);});TAB_W['Eligible']={};
+S.mix=TAB_W[S.pickerCat];
+function inElig(sym){return Object.prototype.hasOwnProperty.call(TAB_W['Eligible'],sym);}
+function renderMixTable(){var b=el('mixBody');if(!b)return;b.innerHTML='';
+  var q=(S.pickerQ||'').trim().toLowerCase();var isElig=(S.pickerCat==='Eligible');
+  var shown=tabProducts(S.pickerCat).filter(function(p){if(!q)return true;return p.s.toLowerCase().indexOf(q)>=0||p.p.toLowerCase().indexOf(q)>=0||chipCat(p.p).toLowerCase().indexOf(q)>=0;});
+  shown.forEach(function(p){var i=PRODUCTS.indexOf(p);var w=S.mix[p.s]||0;
+    var dot=p.pf?'<span class="pr-pf" title="Built-in price as of '+PRICES_DATE+'"></span>':'';
+    var rough=p.pf?'':' <span class="pr-rough" title="No clean public price yet \u2014 rough placeholder, edit for precision">rough</span>';
+    var act=isElig?'<button class="pm-rm" data-rm="'+p.s+'" title="Remove from Eligible" aria-label="Remove '+p.s+'">\u00d7</button>':(inElig(p.s)?'<button class="pm-added" data-rm="'+p.s+'" title="Added to Eligible \u2014 click to remove">\u2713 Added</button>':'<button class="pm-add" data-add="'+p.s+'" data-sym="'+p.s+'">+ Add</button>');
+    b.innerHTML+='<tr><td><span class="pm-sym">'+p.s+'</span><br><span class="pm-cls">'+p.p+' \u00b7 '+n0(p.cs)+(p.cs===1?' unit':' units')+' per lot</span></td>'
+      +'<td class="num pm-ppl" id="mm'+i+'">'+m2(marginStd(p,S.group))+'</td>'
+      +'<td class="num"><span class="price-in">'+dot+'<input type="number" step="any" data-mixp="'+i+'" value="'+p.px+'"></span>'+rough+'</td>'
+      +'<td class="num"><span class="pm-mixin"><input type="number" data-mixw="'+i+'" value="'+w+'"><span class="pmsuf">%</span></span></td>'
+      +'<td class="num"><div class="pm-contrib"><div class="pm-cbar" id="mixbar'+i+'"></div><span class="pm-cval" id="mixval'+i+'" data-mixi="'+i+'"></span></div></td>'
+      +'<td class="num">'+act+'</td></tr>';
+  });
+  if(!b.innerHTML)b.innerHTML='<tr><td colspan="6" class="pm-empty">'+(isElig?'No products added yet \u2014 open a category tab and click + Add to build your mix.':'No products match \u2014 clear the search.')+'</td></tr>';
   b.querySelectorAll('input[data-mixw]').forEach(function(inp){inp.addEventListener('input',function(){S.mix[PRODUCTS[+inp.getAttribute('data-mixw')].s]=parseFloat(inp.value)||0;render();});});
   b.querySelectorAll('input[data-mixp]').forEach(function(inp){inp.addEventListener('input',function(){PRODUCTS[+inp.getAttribute('data-mixp')].px=parseFloat(inp.value)||0;render();});});
+  b.querySelectorAll('.pm-add').forEach(function(bt){bt.addEventListener('click',function(){addToEligible(bt.getAttribute('data-add'),bt);});});
+  b.querySelectorAll('.pm-rm,.pm-added').forEach(function(bt){bt.addEventListener('click',function(){removeFromEligible(bt.getAttribute('data-rm'));});});
+  b.querySelectorAll('.pm-cval').forEach(function(v){v.onmouseenter=function(){if(!_tipPin)showTip(v,tipForRow(+v.getAttribute('data-mixi')));};v.onmouseleave=function(){hideTip();};v.onclick=function(ev){ev.stopPropagation();showTip(v,tipForRow(+v.getAttribute('data-mixi')),true);};});
+  var ob=el('o_bm2');if(ob){ob.onmouseenter=function(){if(!_tipPin)showTip(ob,tipForBlend());};ob.onmouseleave=function(){hideTip();};ob.onclick=function(ev){ev.stopPropagation();showTip(ob,tipForBlend(),true);};}
 }
+function refreshCount(){var c=el('pickCount');if(!c)return;var n=tabProducts(S.pickerCat).length;c.textContent=n+(n===1?' product':' products');}
+function renderPicker(){var wrap=el('pickChips');if(!wrap)return;
+  var html=PICK_CHIPS.map(function(c){return '<button class="pick-chip'+(S.pickerCat===c?' on':'')+'" data-cat="'+c+'">'+c+' <span class="pc-n">'+tabProducts(c).length+'</span></button>';}).join('');
+  html+='<button class="pick-chip pick-chip-elig'+(S.pickerCat==='Eligible'?' on':'')+'" id="chipEligible" data-cat="Eligible">Eligible Products <span class="pc-n">'+tabProducts('Eligible').length+'</span></button>';
+  wrap.innerHTML=html;
+  wrap.querySelectorAll('.pick-chip').forEach(function(bt){bt.addEventListener('click',function(){switchTab(bt.getAttribute('data-cat'));});});
+  var si=el('pickSearch');if(si){if(document.activeElement!==si)si.value=S.pickerQ||'';si.placeholder='Search symbol (e.g. XAU) or category\u2026  \u00b7  Prices as of '+PRICES_DATE+' \u2014 edit freely. Items marked \u201crough\u201d have no clean public quote yet';si.oninput=function(){S.pickerQ=si.value;renderMixTable();refreshCount();render();};}
+  var lbl=el('pickViewLabel');if(lbl)lbl.textContent=(S.pickerCat==='Eligible'?'Eligible products \u2014 your hand-picked mix':(S.pickerCat==='All'?'All products':S.pickerCat+' products'))+' \u2014 this mix drives the forecast';
+  var src=el('ndMixSrc');if(src)src.textContent='Feeding Stage 5 & the verdict \u2014 the '+(S.pickerCat==='All'?'All products':S.pickerCat==='Eligible'?'Eligible Products':S.pickerCat)+' mix from Stage 4';
+  ['o_ndper','nd_r1'].forEach(function(id){var e=el(id);if(e){e.onmouseenter=function(){if(!_tipPin)showTip(e,tipForNDperlot());};e.onmouseleave=function(){hideTip();};e.onclick=function(ev){ev.stopPropagation();showTip(e,tipForNDperlot(),true);};}});
+  ['nd_r3','o_ndtot'].forEach(function(id){var e=el(id);if(e){e.onmouseenter=function(){if(!_tipPin)showTip(e,tipForNDtotal());};e.onmouseleave=function(){hideTip();};e.onclick=function(ev){ev.stopPropagation();showTip(e,tipForNDtotal(),true);};}});
+  var _obm=el('o_bm');if(_obm){_obm.onmouseenter=function(){if(!_tipPin)showTip(_obm,tipForBlend());};_obm.onmouseleave=function(){hideTip();};_obm.onclick=function(ev){ev.stopPropagation();showTip(_obm,tipForBlend(),true);};}
+  var _orev=el('o_rev');if(_orev){_orev.onmouseenter=function(){if(!_tipPin)showTip(_orev,tipForRevenue());};_orev.onmouseleave=function(){hideTip();};_orev.onclick=function(ev){ev.stopPropagation();showTip(_orev,tipForRevenue(),true);};}
+  var _oc=el('o_cost');if(_oc){_oc.onmouseenter=function(){if(!_tipPin)showTip(_oc,tipForCostTotal());};_oc.onmouseleave=function(){hideTip();};_oc.onclick=function(ev){ev.stopPropagation();showTip(_oc,tipForCostTotal(),true);};}
+  [['o_t1c2',tipForT1cost],['o_t2c',tipForT2cost],['o_airc',tipForAir],['o_medc',tipForMedia]].forEach(function(pr){var e=el(pr[0]);if(!e)return;e.onmouseenter=function(){if(!_tipPin)showTip(e,pr[1]());};e.onmouseleave=function(){hideTip();};e.onclick=function(ev){ev.stopPropagation();showTip(e,pr[1](),true);};});
+  [['rc_rev',tipForRevenue],['rc_nd',tipForNDtotal],['rc_cost',tipForCostTotal]].forEach(function(pr){var e=el(pr[0]);if(!e)return;e.onmouseenter=function(){if(!_tipPin)showTip(e,pr[1]());};e.onmouseleave=function(){hideTip();};e.onclick=function(ev){ev.stopPropagation();showTip(e,pr[1](),true);};});
+  var _vn=el('vNet');if(_vn){_vn.onmouseenter=function(){if(!_tipPin)showTip(_vn,tipForVerdict());};_vn.onmouseleave=function(){hideTip();};_vn.onclick=function(ev){ev.stopPropagation();showTip(_vn,tipForVerdict(),true);};}
+  [['be_cov',tipForCoverage],['be_mar',tipForMarginConv],['be_rew',tipForRewardConv]].forEach(function(pr){var e=el(pr[0]);if(!e)return;e.onmouseenter=function(){if(!_tipPin)showTip(e,pr[1]());};e.onmouseleave=function(){hideTip();};e.onclick=function(ev){ev.stopPropagation();showTip(e,pr[1](),true);};});
+  [['ce_cpf',tipCE_cpf],['ce_ncpf',tipCE_ncpf],['ce_mpf',tipCE_mpf],['ce_cpc',tipCE_cpc],['ce_cpl',tipCE_cpl]].forEach(function(pr){var e=el(pr[0]);if(!e)return;e.onmouseenter=function(){if(!_tipPin)showTip(e,pr[1]());};e.onmouseleave=function(){hideTip();};e.onclick=function(ev){ev.stopPropagation();showTip(e,pr[1](),true);};});
+  var rb=el('pmReset');if(rb)rb.onclick=function(){resetEqual();};
+  refreshCount();
+}
+function switchTab(cat){S.pickerCat=cat;S.mix=TAB_W[cat];S.pickerQ='';buildMix();render();}
+function resetEqual(){TAB_W[S.pickerCat]=equalWeights(S.pickerCat);S.mix=TAB_W[S.pickerCat];buildMix();render();}
+function addToEligible(sym,fromEl){if(inElig(sym))return;var n=Object.keys(TAB_W['Eligible']).length;TAB_W['Eligible'][sym]=Math.max(1,Math.round(100/(n+1)));if(S.pickerCat==='Eligible')S.mix=TAB_W['Eligible'];flyToCart(fromEl);buildMix();render();}
+function removeFromEligible(sym){if(inElig(sym))delete TAB_W['Eligible'][sym];if(S.pickerCat==='Eligible')S.mix=TAB_W['Eligible'];buildMix();render();}
+function flyToCart(fromEl){if(_rm||!fromEl)return;var to=el('chipEligible')||el('o_bm2')||el('mixBody');if(!to)return;var a=fromEl.getBoundingClientRect(),bb=to.getBoundingClientRect();var pill=document.createElement('div');pill.className='fly-pill';pill.textContent=fromEl.getAttribute('data-sym')||'';document.body.appendChild(pill);pill.style.left=a.left+'px';pill.style.top=a.top+'px';var dx=(bb.left+bb.width/2)-(a.left+a.width/2),dy=(bb.top+bb.height/2)-(a.top+a.height/2);requestAnimationFrame(function(){pill.style.transform='translate('+dx+'px,'+dy+'px) scale(.4)';pill.style.opacity='0';});setTimeout(function(){pill.remove();if(to.classList){to.classList.add('pop');setTimeout(function(){to.classList.remove('pop');},280);}},520);}
+function buildMix(){renderMixTable();renderPicker();}
+function tipForRow(i){var p=PRODUCTS[i];if(!p)return '';var sw=0;PRODUCTS.forEach(function(q){sw+=(S.mix[q.s]||0);});var w=S.mix[p.s]||0,mar=marginStd(p,S.group),sh=sw>0?w/sw:0,c=sh*mar,swR=Math.round(sw*10)/10;
+  if(w<=0)return '<b>'+p.s+'</b><div class="tip-n">No mix % on this row \u2014 it adds nothing to the blend.</div>';
+  return '<b>'+p.s+' \u2014 contribution to the blend</b><div class="tip-n">Contribution = (this row\u2019s mix % \u00f7 total mix %) \u00d7 margin/lot</div><div class="tip-f">( '+w+'% \u00f7 '+swR+'% ) \u00d7 '+m2(mar)+'</div><div class="tip-f">= '+sh.toFixed(4)+' \u00d7 '+m2(mar)+'</div><div class="tip-r">= '+m2(c)+'</div><div class="tip-n">Live with the mix % and account type (Std/Pro/ECN). Margin/lot is fixed from Promo Calc \u2014 the Price column drives Stage 5, not the blend.</div>';}
+function tipForBlend(){var sw=0;PRODUCTS.forEach(function(q){sw+=(S.mix[q.s]||0);});var mm=compute();var ks=Object.keys(S.mix).filter(function(k){return (S.mix[k]||0)>0;});var parts=ks.map(function(k){var pp=findP(k);return m2((S.mix[k]/sw)*marginStd(pp,S.group));});
+  var body=(parts.length&&parts.length<=12)?parts.join('  +  ')+'<br>= '+m2(mm.bm):'sum of all '+parts.length+' rows\u2019 contributions = '+m2(mm.bm);
+  return '<b>Blended margin / standard lot</b><div class="tip-n">Add up every row\u2019s Contribution (each = its mix % \u00f7 total % \u00d7 its margin/lot):</div><div class="tip-f">'+body+'</div><div class="tip-r">= '+m2(mm.bm)+'</div><div class="tip-n">Drives Stage 4 trading revenue. Live with mix % and account type (not price).</div>';}
+function showTip(anchor,html,pin){var t=el('pmTip');if(!t||!anchor)return;t.innerHTML=html+(pin?'<div class="tip-close">Text is selectable \u2014 click outside to close</div>':'');if(pin)_tipPin=true;t.classList.toggle('pinned',!!pin);t.classList.add('show');var r=anchor.getBoundingClientRect(),tw=t.offsetWidth,th=t.offsetHeight,left=r.left+r.width/2-tw/2;if(left<8)left=8;if(left+tw>window.innerWidth-8)left=window.innerWidth-8-tw;var top=r.top-th-10;if(top<8)top=r.bottom+10;t.style.left=left+'px';t.style.top=top+'px';}
+var _tipPin=false;
+function hideTip(force){var t=el('pmTip');if(!t)return;if(_tipPin&&!force)return;t.classList.remove('show');}
+function unpinTip(){_tipPin=false;var t=el('pmTip');if(t){t.classList.remove('pinned');t.classList.remove('show');}}
+function tipForNDperlot(){var mm=compute();var sw=0;PRODUCTS.forEach(function(q){sw+=(S.mix[q.s]||0);});var ks=Object.keys(S.mix).filter(function(k){return (S.mix[k]||0)>0;});
+  var head='<b>Net deposit to trade 1 lot (blended)</b><div class="tip-n">Each product = contract size \u00d7 price \u00d7 lot-ratio \u00f7 leverage, then \u00d7 its mix %. Add them up = the blend.</div>';
+  var tail='<div class="tip-n">Live \u2014 changes with price, mix %, and the leverage cap (1 : '+S.lev+').</div>';
+  if(!ks.length)return head+'<div class="tip-r">= '+m0(0)+'</div>'+tail;
+  function perlot(k){var p=findP(k);return p.cs*p.px*ratio(p.p)/S.lev;}
+  if(ks.length<=10){
+    var lines=ks.map(function(k){var p=findP(k);var pl=perlot(k),sh=S.mix[k]/sw,piece=sh*pl;
+      return '<div class="tip-f">'+k+': '+n0(p.cs)+'\u00d7'+m2(p.px)+'\u00d7'+ratio(p.p)+'\u00f7'+S.lev+' = '+m0(pl)+' \u00d7 '+(Math.round(sh*1000)/10)+'% = '+m0(piece)+'</div>';}).join('');
+    return head+lines+'<div class="tip-r">= '+m0(mm.mreq)+'  (sum of the pieces above)</div>'+tail;
+  }
+  var arr=ks.map(function(k){return {k:k,pl:perlot(k)};}).sort(function(a,b){return a.pl-b.pl;});var lo=arr[0],hi=arr[arr.length-1];
+  return head+'<div class="tip-n">This mix has '+ks.length+' products with very different per-lot sizes \u2014 the blend is their mix-weighted average:</div>'
+    +'<div class="tip-f">smallest \u2014 '+lo.k+' = '+m0(lo.pl)+'/lot</div><div class="tip-f">largest \u2014 '+hi.k+' = '+m0(hi.pl)+'/lot</div>'
+    +'<div class="tip-n">Big-notional products (indices, crypto) pull the average up. Open one category tab (e.g. FX) to see every product\u2019s share added up.</div>'
+    +'<div class="tip-r">weighted blend = '+m0(mm.mreq)+'</div>'+tail;}
+function tipForNDtotal(){var mm=compute();return '<b>Total net deposit in the door</b><div class="tip-n">Net deposit to trade 1 lot \u00d7 number of converters</div><div class="tip-f">'+m0(mm.mreq)+'/lot \u00d7 '+n0(mm.converters)+' converters</div><div class="tip-r">= '+m0(mm.netTot)+'</div><div class="tip-n">Live \u2014 changes with price, mix %, leverage, and the funnel rates above.</div>';}
+function tipForRevenue(){var mm=compute();return '<b>Trading revenue</b><div class="tip-n">Margin earned = total lots traded \u00d7 blended margin per lot.</div><div class="tip-f">total lots = '+n0(mm.converters)+' converters \u00d7 '+(Math.round(S.lots*10)/10)+' avg lots = '+n0(mm.totalLots)+'</div><div class="tip-f">'+n0(mm.totalLots)+' lots \u00d7 '+m2(mm.bm)+'/lot blended margin</div><div class="tip-r">= '+m0(mm.revenue)+'</div><div class="tip-n">Live \u2014 changes with the funnel rates (Stages 1\u20132), avg lots, mix %, and account type. (Intermediate figures are rounded; the total is exact.)</div>';}
+function tipForCostTotal(){var mm=compute();return '<b>Total campaign cost</b><div class="tip-n">Everything the promo pays out: both cashbacks + the prize + media.</div><div class="tip-f">Tier 1 '+m0(mm.t1cost)+' + Tier 2 '+m0(mm.t2cost)+' + Air '+m0(S.air)+' + Media '+m0(S.media)+'</div><div class="tip-r">= '+m0(mm.cost)+'</div><div class="tip-n">Live \u2014 changes with the funnel rates, deposit & loss assumptions, prize and media.</div>';}
+function tipForT1cost(){var mm=compute();var t1per=Math.min(S.avgDep,S.t1cap);return '<b>Tier 1 cashback</b><div class="tip-n">100% of the first deposit, capped at '+m0(S.t1cap)+'. Platform minimum is '+m0(S.avgDep)+', so every depositor gets '+m2(t1per)+'.</div><div class="tip-f">'+n0(mm.depositors)+' depositors \u00d7 '+m2(t1per)+'</div><div class="tip-r">= '+m0(mm.t1cost)+'</div><div class="tip-n">Live \u2014 changes with the base & response rate (Stage 1) and the deposit inputs (Stage 3).</div>';}
+function tipForT2cost(){var mm=compute();var t2per=Math.min(S.avgLoss,50);return '<b>Tier 2 (loss refund)</b><div class="tip-n">Only losing first trades are refunded \u2014 100% of the loss, capped $50.</div><div class="tip-f">converters \u00d7 loss-rate \u00d7 avg loss</div><div class="tip-f">'+n0(mm.converters)+' \u00d7 '+fmtPct(S.lossRate)+' \u00d7 '+m2(t2per)+'</div><div class="tip-r">= '+m0(mm.t2cost)+'</div><div class="tip-n">Live \u2014 changes with converters and the two loss inputs (Stage 3).</div>';}
+function tipForAir(){return '<b>Air ticket \u2014 Tier 3 prize</b><div class="tip-n">Grand prize: one economy air ticket, 1 winner. A fixed cost.</div><div class="tip-r">= '+m0(S.air)+'</div><div class="tip-n">Set by the \u201cAir-ticket prize\u201d input in Stage 5.</div>';}
+function tipForMedia(){return '<b>Media</b><div class="tip-n">Paid retargeting spend; owned channels are free.</div><div class="tip-r">= '+m0(S.media)+'</div><div class="tip-n">Set by the \u201cPaid media\u201d input in Stage 5.</div>';}
+function tipForVerdict(){var mm=compute();var pass=mm.net>=0;return '<b>'+(pass?'Self-funds':'Runs at a loss')+'</b><div class="tip-n">The bottom line: trading revenue minus total cost.</div><div class="tip-f">'+m0(mm.revenue)+' revenue \u2212 '+m0(mm.cost)+' cost</div><div class="tip-r">= '+m0(mm.net)+'</div><div class="tip-n">'+(pass?'Positive \u2014 trading covers everything with this to spare.':'Negative \u2014 trading falls this much short.')+' Live \u2014 changes with every input above.</div>';}
+function tipForCoverage(){var mm=compute();return '<b>Coverage (revenue \u00f7 cost)</b><div class="tip-n">How many times the trading revenue covers the total cost.</div><div class="tip-f">'+m0(mm.revenue)+' \u00f7 '+m0(mm.cost)+'</div><div class="tip-r">= '+mult(mm.coverage)+'</div><div class="tip-n">1.0\u00d7 = break-even. Above = self-funds; below = runs at a loss. Live.</div>';}
+function tipForMarginConv(){var mm=compute();var earn=mm.marginPer,pay=mm.reward,net=earn-pay;var be=mm.bm>0?(pay/mm.bm):0,beR=Math.round(be*10)/10,nc=net>=0?'#6FE0C8':'#FF9B8A';
+  return '<b>Margin / converter</b>'
+    +'<div class="tip-n">What each converter earns you from their trading = avg lots \u00d7 blended margin per lot.</div>'
+    +'<div class="tip-f">'+(Math.round(S.lots*10)/10)+' avg lots \u00d7 '+m2(mm.bm)+'/lot</div>'
+    +'<div class="tip-r">= '+m2(earn)+'</div>'
+    +'<div class="tip-div"></div><div class="tip-sub">Per converter</div>'
+    +'<table class="tip-tbl"><tr><td>You earn (Margin / converter)</td><td class="tt-n">'+m2(earn)+'</td></tr>'
+    +'<tr><td>You pay (Reward / converter)</td><td class="tt-n">'+m2(pay)+'</td></tr>'
+    +'<tr class="tt-net"><td>Net</td><td class="tt-n" style="color:'+nc+'">'+(net<0?'\u2212'+m2(Math.abs(net)):(net>0?'+'+m2(net):m2(net)))+'</td></tr></table>'
+    +'<div class="tip-n" style="margin-top:9px"><span style="color:#fff;font-weight:700">What it\u2019s for:</span> you want Margin / converter bigger than Reward / converter. When earn \u2265 pay, each customer covers their own cashback and the promo self-funds.'+(net>=0?' Right now each converter nets '+m2(net)+' \u2014 it pays for itself.':' Right now it\u2019s the wrong way round by '+m2(Math.abs(net))+' per converter \u2014 which is why the verdict is red.')+'</div>'
+    +'<div class="tip-n" style="margin-top:7px;color:#C6D3F2">Three levers to flip it:</div>'
+    +'<div class="tip-f">\u2022 Trade more \u2014 raise Avg lots (Stage 2). Each converter\u2019s margin covers the reward at about '+beR+' lots (you\u2019re at '+(Math.round(S.lots*10)/10)+').</div>'
+    +'<div class="tip-f">\u2022 Higher-margin mix \u2014 crypto / indices lift the blended margin, so each lot earns more.</div>'
+    +'<div class="tip-f">\u2022 Pay less \u2014 a smaller cashback cap.</div>'
+    +'<div class="tip-n" style="margin-top:7px">In short: what one trading customer makes you, next to what one costs you \u2014 a per-customer profit check. Live.</div>';}
+function tipForRewardConv(){var mm=compute();var t1per=Math.min(S.avgDep,S.t1cap);var t2per=Math.min(S.avgLoss,50);var t2exp=(S.lossRate/100)*t2per;
+  var earn=mm.marginPer,pay=mm.reward,net=earn-pay,nc=net>=0?'#6FE0C8':'#FF9B8A',netStr=net<0?'\u2212'+m2(Math.abs(net)):(net>0?'+'+m2(net):m2(net));
+  var head=(S.basis==='t2')
+    ? '<b>Reward / converter \u2014 Tier 2 only</b><div class="tip-n">Just the expected Tier 2 loss refund (Tier 1 treated as acquisition spend).</div><div class="tip-f">loss-rate \u00d7 avg loss = '+fmtPct(S.lossRate)+' \u00d7 '+m2(t2per)+'</div><div class="tip-r">= '+m2(pay)+'</div>'
+    : '<b>Reward / converter \u2014 Full (T1 + T2)</b><div class="tip-n">Tier 1 cashback + expected Tier 2 refund, per converter.</div><div class="tip-f">Tier 1 '+m2(t1per)+' + Tier 2 ('+fmtPct(S.lossRate)+' \u00d7 '+m2(t2per)+' = '+m2(t2exp)+')</div><div class="tip-r">= '+m2(pay)+'</div>';
+  var tbl='<div class="tip-div"></div><div class="tip-sub">Per converter</div><table class="tip-tbl"><tr><td>You earn (Margin / converter)</td><td class="tt-n">'+m2(earn)+'</td></tr><tr><td>You pay (Reward / converter)</td><td class="tt-n">'+m2(pay)+'</td></tr><tr class="tt-net"><td>Net</td><td class="tt-n" style="color:'+nc+'">'+netStr+'</td></tr></table>';
+  var expl='<div class="tip-n" style="margin-top:9px"><span style="color:#fff;font-weight:700">What it\u2019s for:</span> this is the cost side \u2014 what you hand back to each converter in cashback. You want it below Margin / converter (what they earn you).'+(net>=0?' Right now margin covers it with '+m2(net)+' to spare per converter.':' Right now it\u2019s '+m2(Math.abs(net))+' more than each converter earns you \u2014 so every converter is a small loss.')+'</div>';
+  var levers='<div class="tip-n" style="margin-top:7px;color:#C6D3F2">Two ways to bring it under margin:</div><div class="tip-f">\u2022 Pay less \u2014 lower the cashback cap (this number drops directly).</div><div class="tip-f">\u2022 Earn more \u2014 raise Avg lots (Stage 2) or push a higher-margin mix, so Margin / converter rises to meet it.</div>';
+  var toggle='<div class="tip-n" style="margin-top:7px">Toggle '+(S.basis==='t2'?'\u201cFull\u201d to add Tier 1 back in.':'\u201cTier 2 only\u201d to treat Tier 1 as marketing spend.')+' Live.</div>';
+  return head+tbl+expl+levers+toggle;}
+function tipForLotsRow(sym){var p=findP(sym);if(!p)return '';var mm=compute();var mar=marginStd(p,S.group);var reward=mm.reward;var lots=mar>0?reward/mar:Infinity;var cur=Math.round(S.lots*10)/10;var ok=isFinite(lots)&&lots<=S.lots+1e-9;var lotsStr=isFinite(lots)?(Math.round(lots*100)/100).toFixed(2):'\u2014';
+  if(!isFinite(lots))return '<b>'+p.s+'</b><div class="tip-n">No margin on this product \u2014 it can never cover the reward on its own.</div>';
+  return '<b>'+p.s+' \u2014 lots to cover reward</b>'
+    +'<div class="tip-n">How many lots of '+p.s+' one converter must trade so its margin covers the reward you pay them.</div>'
+    +'<div class="tip-f">reward / converter \u00f7 '+p.s+' margin/lot</div>'
+    +'<div class="tip-f">'+m2(reward)+' \u00f7 '+m2(mar)+'</div>'
+    +'<div class="tip-r">= '+lotsStr+' lots</div>'
+    +'<div class="tip-div"></div>'
+    +'<table class="tip-tbl"><tr><td>Reward / converter</td><td class="tt-n">'+m2(reward)+'</td></tr><tr><td>'+p.s+' margin / lot</td><td class="tt-n">'+m2(mar)+'</td></tr><tr class="tt-net"><td>Lots to cover it</td><td class="tt-n">'+lotsStr+'</td></tr></table>'
+    +'<div class="tip-n" style="margin-top:9px"><span style="color:#fff;font-weight:700">What it\u2019s for:</span> if converters trade at least '+lotsStr+' lots of '+p.s+', its margin alone pays for the reward. '+(ok?'You\u2019re at '+cur+' avg lots \u2014 it already clears this (green row).':'You\u2019re at '+cur+' avg lots \u2014 below '+lotsStr+', so on '+p.s+' alone the reward isn\u2019t covered yet.')+'</div>'
+    +'<div class="tip-n" style="margin-top:7px;color:#C6D3F2">Fewer lots needed if:</div>'
+    +'<div class="tip-f">\u2022 Higher margin/lot \u2014 pick a richer product (crypto, indices).</div>'
+    +'<div class="tip-f">\u2022 Smaller reward \u2014 lower the cashback cap.</div>'
+    +'<div class="tip-n" style="margin-top:7px">Green rows need fewer lots than your current avg-lots setting, so they self-fund as-is. Live \u2014 changes with the reward, mix and account type.</div>';}
+function tipForProdRow(sym){var p=findP(sym);if(!p)return '';var mm=compute();var mar=marginStd(p,S.group);var reward=mm.reward;var net=mar-reward;var ok=net>=0;var nc=ok?'#6FE0C8':'#FF9B8A';var netStr=net<0?'\u2212'+m2(Math.abs(net)):(net>0?'+'+m2(net):m2(net));var needLots=mar>0?(Math.round(reward/mar*100)/100).toFixed(2):'\u2014';
+  return '<b>'+p.s+' \u2014 net vs reward (at 1 lot)</b>'
+    +'<div class="tip-n">What ONE lot of '+p.s+' earns you, minus the reward you pay each converter.</div>'
+    +'<div class="tip-f">'+p.s+' margin @ 1 lot \u2212 reward / converter</div>'
+    +'<div class="tip-f">'+m2(mar)+' \u2212 '+m2(reward)+'</div>'
+    +'<div class="tip-r" style="color:'+nc+'">= '+netStr+'</div>'
+    +'<div class="tip-div"></div>'
+    +'<table class="tip-tbl"><tr><td>'+p.s+' margin @ 1 lot</td><td class="tt-n">'+m2(mar)+'</td></tr><tr><td>Reward / converter</td><td class="tt-n">'+m2(reward)+'</td></tr><tr class="tt-net"><td>Net (1 lot)</td><td class="tt-n" style="color:'+nc+'">'+netStr+'</td></tr></table>'
+    +'<div class="tip-n" style="margin-top:9px"><span style="color:#fff;font-weight:700">What it\u2019s for:</span> at a flat 1-lot rule, '+(ok?'one lot of '+p.s+' earns '+m2(Math.abs(net))+' MORE than the reward \u2014 it self-funds on a single lot (green).':'one lot of '+p.s+' earns '+m2(Math.abs(net))+' LESS than the reward \u2014 one lot isn\u2019t enough (red).')+'</div>'
+    +'<div class="tip-n" style="margin-top:7px;color:#C6D3F2">'+(ok?'Why it works:':'To make it work:')+'</div>'
+    +(ok?'<div class="tip-f">\u2022 High margin/lot \u2014 a single lot covers the whole reward.</div>':'<div class="tip-f">\u2022 Require more lots \u2014 the \u201cLots to break even\u201d tab shows '+p.s+' needs '+needLots+' lots.</div>')
+    +'<div class="tip-f">\u2022 '+(ok?'Or a':'A')+' smaller reward \u2014 lower the cashback cap.</div>'
+    +'<div class="tip-n" style="margin-top:7px">Green = one lot covers the reward; red = it doesn\u2019t. (The column rounds to whole dollars.) Live \u2014 changes with the reward and account type.</div>';}
+function renderCostEff(m){var dep=m.depositors,conv=m.converters,lots=m.totalLots,cost=m.cost,rev=m.revenue,media=S.media;
+  var cpf=dep>0?cost/dep:0,ncpf=dep>0?(cost-rev)/dep:0,mpf=dep>0?media/dep:0,cpc=conv>0?cost/conv:0,cpl=lots>0?cost/lots:0;
+  var BM_YTD=101.5,BM_BEST=70.1,beats=cpf<BM_YTD,diff=Math.round(Math.abs(cpf-BM_YTD)*10)/10;
+  var e=el('ce_cpf');if(e){e.textContent=m2(cpf);e.style.color=beats?'#0E8169':'#C0392B';}
+  set('ce_cpf_sub',(beats?'$'+diff+' cheaper than':'$'+diff+' dearer than')+' this year\u2019s average');
+  e=el('ce_ncpf');if(e){e.textContent=(ncpf<0?'\u2212'+m2(Math.abs(ncpf)):m2(ncpf));e.style.color=ncpf<=0?'#0E8169':'#1B2559';}
+  set('ce_ncpf_sub',ncpf<=0?'trading income more than covers it':'the real cost after trading income');
+  set('ce_mpf',m2(mpf));set('ce_cpc',m2(cpc));set('ce_cpl',m2(cpl));
+  var b=el('bmBanner');if(b){b.className='bm-banner '+(beats?'bm-good':'bm-warn');b.innerHTML='<span class="bm-t">How it compares to the H2 plan</span>So far this year, winning each brand-new customer has cost us about <b>$'+BM_YTD+'</b> on average \u2014 our cheapest month was March at <b>$'+BM_BEST+'</b>. This win-back brings one in for about <b>'+m2(cpf)+'</b>, counting everything it pays out (both cashbacks, the prize and any ads) \u2014 '+(beats?'roughly <b style="color:#0E8169">$'+diff+' cheaper per customer</b>':'about <b style="color:#C0392B">$'+diff+' dearer per customer</b>')+' than our year-so-far average.'+(ncpf<=0?' And once their trading income is counted, each new customer actually comes in at a small <b style="color:#0E8169">profit of '+m2(Math.abs(ncpf))+'</b>.':'')+' It\u2019s this cheap because these people already passed our ID checks \u2014 so we only pay to wake them up, not to find them.';}}
+function tipCE_cpf(){var mm=compute();var dep=mm.depositors;var cpf=dep>0?mm.cost/dep:0;var BM=101.5,BB=70.1,beats=cpf<BM,diff=Math.round(Math.abs(cpf-BM)*10)/10;
+  return '<b>Cost to win one new customer</b><div class="tip-n">Everything this promo pays out, shared across every brand-new customer it brings in. It\u2019s the same measure the H2 plan uses.</div><div class="tip-f">total cost \u00f7 new customers</div><div class="tip-f">'+m0(mm.cost)+' \u00f7 '+n0(dep)+'</div><div class="tip-r">= '+m2(cpf)+'</div><div class="tip-div"></div><div class="tip-n">So far this year we\u2019ve averaged <b style="color:#fff">$'+BM+'</b> to win each new customer (best month <b style="color:#fff">$'+BB+'</b>, March). This win-back is '+(beats?'<span style="color:#6FE0C8">$'+diff+' cheaper than that</span>':'<span style="color:#FF9B8A">$'+diff+' dearer than that</span>')+'.</div><div class="tip-n" style="margin-top:6px">Cheap because these people already passed our ID checks \u2014 we only pay to activate them, not to find them. This figure stays the same whatever products they trade. Updates live.</div>';}
+function tipCE_ncpf(){var mm=compute();var dep=mm.depositors;var ncpf=dep>0?(mm.cost-mm.revenue)/dep:0;var nStr=ncpf<0?'\u2212'+m2(Math.abs(ncpf)):m2(ncpf);var nc=ncpf<=0?'#6FE0C8':'#EAF0FF';
+  return '<b>Real cost per customer, after trading income</b><div class="tip-n">The true cost of each new customer once the money they generate from trading is taken off \u2014 what they actually cost us after the promo has paid for itself.</div><div class="tip-f">(total cost \u2212 trading income) \u00f7 new customers</div><div class="tip-f">('+m0(mm.cost)+' \u2212 '+m0(mm.revenue)+') \u00f7 '+n0(dep)+'</div><div class="tip-r" style="color:'+nc+'">= '+nStr+'</div><div class="tip-div"></div><div class="tip-n">'+(ncpf<=0?'Below zero \u2014 their trading income more than pays for the promo, so each new customer actually comes in at a <span style="color:#6FE0C8">profit of '+m2(Math.abs(ncpf))+'</span>.':'Above zero \u2014 after trading income, each new customer still costs a net '+m2(ncpf)+' (still under this year\u2019s $101.5 average if lower).')+'</div><div class="tip-n" style="margin-top:6px">This one changes with the products chosen above, because it depends on how much they trade. Updates live.</div>';}
+function tipCE_mpf(){var mm=compute();var dep=mm.depositors;var mpf=dep>0?S.media/dep:0;
+  return '<b>Ad spend per new customer</b><div class="tip-n">How much paid advertising we spend to win each new customer \u2014 the closest match to the deck\u2019s spend-only figure.</div><div class="tip-f">ad spend \u00f7 new customers</div><div class="tip-f">'+m0(S.media)+' \u00f7 '+n0(dep)+'</div><div class="tip-r">= '+m2(mpf)+'</div><div class="tip-n" style="margin-top:6px">Tiny, because this win-back only re-contacts people we already have (retargeting and our own channels) \u2014 no spend on finding new leads. Set the ad-spend figure in Stage 5. Updates live.</div>';}
+function tipCE_cpc(){var mm=compute();var conv=mm.converters;var cpc=conv>0?mm.cost/conv:0;
+  return '<b>Cost per customer who trades</b><div class="tip-n">The total promo cost shared only across the customers who both deposit AND go on to place a trade.</div><div class="tip-f">total cost \u00f7 trading customers</div><div class="tip-f">'+m0(mm.cost)+' \u00f7 '+n0(conv)+'</div><div class="tip-r">= '+m2(cpc)+'</div><div class="tip-n" style="margin-top:6px">Higher than the cost per new customer, because not everyone who deposits actually trades. Stays the same whatever products they trade. Updates live.</div>';}
+function tipCE_cpl(){var mm=compute();var lots=mm.totalLots;var cpl=lots>0?mm.cost/lots:0;
+  return '<b>Cost per lot traded</b><div class="tip-n">The total promo cost shared across every lot of trading it generates (a \u201clot\u201d is the standard unit of trade size).</div><div class="tip-f">total cost \u00f7 lots traded</div><div class="tip-f">'+m0(mm.cost)+' \u00f7 '+n0(lots)+'</div><div class="tip-r">= '+m2(cpl)+'</div><div class="tip-n" style="margin-top:6px">Falls as people trade more (raise Avg lots in Stage 2). Updates live.</div>';}
+
 function updateMix(m){var sw=0;PRODUCTS.forEach(function(p){sw+=(S.mix[p.s]||0);});var maxc=0,contrib=[];
   PRODUCTS.forEach(function(p,i){var w=S.mix[p.s]||0,mar=marginStd(p,S.group),c=sw>0?(w*mar/sw):0;contrib[i]=c;if(c>maxc)maxc=c;set('mm'+i,m2(mar));});
   PRODUCTS.forEach(function(p,i){var bar=el('mixbar'+i),val=el('mixval'+i);if(bar)bar.style.width=(maxc>0?contrib[i]/maxc*100:0)+'%';if(val)val.textContent=contrib[i]>0?m2(contrib[i]):'\u2014';});
   set('mixSumCell',(Math.round(sw*10)/10)+'%');set('o_bm2',m2(m.bm));
-  set('mixNote',Math.abs(sw-100)>0.5?'Mix totals '+(Math.round(sw*10)/10)+'% \u2014 normalised to 100% in the maths. Prices are rough placeholders (editable).':'Margins from Promo Calculator v2 (\u00d71 for FX/Metals, \u00d710 otherwise). Prices are rough placeholders \u2014 edit for precision.');
+  set('mixNote',Math.abs(sw-100)>0.5?'Mix totals '+(Math.round(sw*10)/10)+'% \u2014 normalised to 100% in the maths. Margins from Promo Calculator v2; prices built-in as of '+PRICES_DATE+' (editable).':'Margins from Promo Calculator v2 (\u00d71 for FX/Metals, \u00d710 otherwise); prices built-in as of '+PRICES_DATE+' \u2014 edit freely.');
 }
 function drawFunnel(m){var base=Math.max(S.base,1),convW=Math.max(m.converters/base*100,8);
   set('fn_baseV',n0(S.base));
@@ -748,11 +1011,14 @@ function renderVerdict(m){var pass=m.net>=0;el('vhero').className='vhero '+(pass
   el('vSub').innerHTML=pass?'Trading revenue covers the full cost with <b>'+m0(m.net)+'</b> to spare.':'Trading revenue falls <b>'+m0(Math.abs(m.net))+'</b> short of covering the cost.';
   animateVal('be_cov',m.coverage,mult);animateVal('be_mar',m.marginPer,m2);animateVal('be_rew',m.reward,m2);
   var reward=m.reward;set('rewLots',m2(reward));
-  var rows=PRODUCTS.map(function(p){var mar=marginStd(p,S.group);return {s:p.s,p:p.p,mar:mar,need:mar>0?reward/mar:Infinity};}).sort(function(a,b){return a.need-b.need;});
-  el('lotsBody').innerHTML=rows.map(function(r){var ok=r.need<=S.lots+1e-9,nd=isFinite(r.need)?(Math.round(r.need*100)/100).toFixed(2):'\u2014';return '<tr class="'+(ok?'ok':'')+'"><td class="sym">'+r.s+'</td><td class="cls">'+r.p+'</td><td class="num">'+m2(r.mar)+'</td><td class="res">'+nd+'</td></tr>';}).join('');
+  var rows=tabProducts(S.pickerCat).map(function(p){var mar=marginStd(p,S.group);return {s:p.s,p:p.p,mar:mar,need:mar>0?reward/mar:Infinity};}).sort(function(a,b){return a.need-b.need;});
+  el('lotsBody').innerHTML=rows.map(function(r){var ok=r.need<=S.lots+1e-9,nd=isFinite(r.need)?(Math.round(r.need*100)/100).toFixed(2):'\u2014';return '<tr class="'+(ok?'ok':'')+'"><td class="sym">'+r.s+'</td><td class="cls">'+r.p+'</td><td class="num">'+m2(r.mar)+'</td><td class="res"><span class="nd-tip" data-lotsym="'+r.s+'">'+nd+'</span></td></tr>';}).join('');
+  el('lotsBody').querySelectorAll('[data-lotsym]').forEach(function(c){var sym=c.getAttribute('data-lotsym');c.onmouseenter=function(){if(!_tipPin)showTip(c,tipForLotsRow(sym));};c.onmouseleave=function(){hideTip();};c.onclick=function(ev){ev.stopPropagation();showTip(c,tipForLotsRow(sym),true);};});
+  if(!rows.length)el('lotsBody').innerHTML='<tr><td colspan="4" style="text-align:center;color:var(--muted);padding:16px 0;font-size:12.5px">No products in this tab \u2014 add some on the Eligible Products tab, or pick a category.</td></tr>';
   set('capVal',m2(m.marginPer));
-  var pr=PRODUCTS.map(function(p){var mar=marginStd(p,S.group);return {s:p.s,p:p.p,mar:mar,net:mar-reward};}).sort(function(a,b){return b.net-a.net;});
-  el('prodBody').innerHTML=pr.map(function(r){var ok=r.net>=0;return '<tr class="'+(ok?'ok':'')+'"><td class="sym">'+r.s+'</td><td class="cls">'+r.p+'</td><td class="num">'+m2(r.mar)+'</td><td class="res" style="color:'+(ok?'var(--teal-d)':'#C0392B')+'">'+m0(r.net)+'</td></tr>';}).join('');
+  var pr=tabProducts(S.pickerCat).map(function(p){var mar=marginStd(p,S.group);return {s:p.s,p:p.p,mar:mar,net:mar-reward};}).sort(function(a,b){return b.net-a.net;});
+  el('prodBody').innerHTML=pr.length?pr.map(function(r){var ok=r.net>=0;return '<tr class="'+(ok?'ok':'')+'"><td class="sym">'+r.s+'</td><td class="cls">'+r.p+'</td><td class="num">'+m2(r.mar)+'</td><td class="res" style="color:'+(ok?'var(--teal-d)':'#C0392B')+'"><span class="nd-tip" data-prodsym="'+r.s+'">'+m0(r.net)+'</span></td></tr>';}).join(''):'<tr><td colspan="4" style="text-align:center;color:var(--muted);padding:16px 0;font-size:12.5px">No products in this tab \u2014 add some on the Eligible Products tab, or pick a category.</td></tr>';
+  el('prodBody').querySelectorAll('[data-prodsym]').forEach(function(c){var sym=c.getAttribute('data-prodsym');c.onmouseenter=function(){if(!_tipPin)showTip(c,tipForProdRow(sym));};c.onmouseleave=function(){hideTip();};c.onclick=function(ev){ev.stopPropagation();showTip(c,tipForProdRow(sym),true);};});
 }
 function render(){var m=compute();
   animateVal('o_dep',m.depositors,n0);animateVal('o_tr',m.converters,n0);set('o_lots',n0(m.totalLots));
@@ -762,7 +1028,7 @@ function render(){var m=compute();
   animateVal('nd_r1',m.mreq,m0);set('nd_r2',n0(m.converters));animateVal('nd_r3',m.netTot,m0);
   animateVal('o_cost',m.cost,m0);animateVal('o_t1c2',m.t1cost,m0);animateVal('o_t2c',m.t2cost,m0);set('o_airc',m0(S.air));set('o_medc',m0(S.media));
   set('rc_rev',m0(m.revenue));set('rc_nd',m0(m.netTot));set('rc_cost',m0(m.cost));
-  updateMix(m);drawFunnel(m);drawLadder(m);drawTier1(m);renderVerdict(m);renderTips(m);
+  updateMix(m);drawFunnel(m);drawLadder(m);drawTier1(m);renderVerdict(m);renderCostEff(m);renderTips(m);
 }
 document.querySelectorAll('#scenChips .chip').forEach(function(c){c.addEventListener('click',function(){document.querySelectorAll('#scenChips .chip').forEach(function(x){x.classList.remove('on');});c.classList.add('on');loadScen(c.getAttribute('data-scen'));pushSliders();buildMix();render();});});
 el('groupSeg').addEventListener('click',function(e){if(e.target.tagName!=='BUTTON')return;S.group=e.target.getAttribute('data-g');this.querySelectorAll('button').forEach(function(b){b.classList.toggle('on',b===e.target);});render();});
@@ -770,6 +1036,7 @@ el('basisSeg').addEventListener('click',function(e){if(e.target.tagName!=='BUTTO
 el('svtabs').addEventListener('click',function(e){if(e.target.tagName!=='BUTTON')return;var s=e.target.getAttribute('data-s');this.querySelectorAll('button').forEach(function(b){b.classList.toggle('on',b===e.target);});el('sp_lots').classList.toggle('on',s==='lots');el('sp_cap').classList.toggle('on',s==='cap');el('sp_prod').classList.toggle('on',s==='prod');});
 
 pushSliders();buildMix();render();injectTips();renderTips(compute());
+(function(){var t=el('pmTip');if(t){t.onmousedown=function(e){e.stopPropagation();};t.onclick=function(e){e.stopPropagation();};}document.addEventListener('click',function(){unpinTip();});})();
 </script>
 </body>
 </html>
