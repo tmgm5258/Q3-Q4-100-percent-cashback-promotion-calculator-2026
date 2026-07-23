@@ -773,11 +773,11 @@ function marginStd(pr,g){var per=g==='pro'?pr.pr:g==='ecn'?pr.ecn:pr.st;return p
 function findP(s){for(var i=0;i<PRODUCTS.length;i++)if(PRODUCTS[i].s===s)return PRODUCTS[i];return null;}
 
 var SCEN={
- Worst:{base:21700,resp:3,trade:40,lots:1,air:1200,media:2000,lev:200,avgDep:50,t1cap:50,lossRate:60,avgLoss:40,mix:{XAUUSD:45,EURUSD:25,XAGUSD:10,NAS100:10,BTCUSD:10}},
- Base:{base:21700,resp:6,trade:60,lots:1,air:1200,media:800,lev:200,avgDep:50,t1cap:50,lossRate:50,avgLoss:30,mix:{XAUUSD:40,EURUSD:25,XAGUSD:10,NAS100:10,BTCUSD:15}},
- Best:{base:21700,resp:10,trade:75,lots:2.5,air:1200,media:300,lev:200,avgDep:50,t1cap:50,lossRate:40,avgLoss:25,mix:{XAUUSD:30,EURUSD:20,BTCUSD:25,US30:15,TAOUSD:10}}
+ Worst:{base:14721,resp:3,trade:40,lots:1,air:1000,media:2000,lev:1000,avgDep:220.54,t1cap:50,lossRate:60,avgLoss:40,mix:{XAUUSD:45,EURUSD:25,XAGUSD:10,NAS100:10,BTCUSD:10}},
+ Base:{base:14721,resp:6,trade:95,lots:1,air:1000,media:2000,lev:1000,avgDep:220.54,t1cap:50,lossRate:50,avgLoss:50,mix:{XAUUSD:40,EURUSD:25,XAGUSD:10,NAS100:10,BTCUSD:15}},
+ Best:{base:14721,resp:10,trade:75,lots:2.5,air:1000,media:300,lev:1000,avgDep:220.54,t1cap:50,lossRate:40,avgLoss:25,mix:{XAUUSD:30,EURUSD:20,BTCUSD:25,US30:15,TAOUSD:10}}
 };
-var S={group:'std',basis:'full',pickerCat:'All',pickerQ:'',keep:30,months:6,withdraw:20};
+var S={group:'std',basis:'full',pickerCat:'Eligible',pickerQ:'',keep:50,months:6,withdraw:50};
 function loadScen(name){var s=SCEN[name];S.base=s.base;S.resp=s.resp;S.trade=s.trade;S.lots=s.lots;S.air=s.air;S.media=s.media;S.lev=s.lev;S.avgDep=s.avgDep;S.t1cap=s.t1cap;S.lossRate=s.lossRate;S.avgLoss=s.avgLoss;}
 loadScen('Base');
 
@@ -816,7 +816,7 @@ var setters={};
 setters.base=link('base_r','base_n','base',false,true);setters.resp=link('resp_r','resp_n','resp',true);
 setters.trade=link('trade_r','trade_n','trade');setters.lots=link('lots_r','lots_n','lots',true);
 setters.air=link('air_r','air_n','air');setters.media=link('media_r','media_n','media');setters.lev=link('lev_r','lev_n','lev');setters.keep=link('keep_r','keep_n','keep');setters.months=link('months_r','months_n','months');setters.withdraw=link('withdraw_r','withdraw_n','withdraw');
-setters.avgDep=link('avgdep_r','avgdep_n','avgDep');setters.t1cap=link('t1cap_r','t1cap_n','t1cap');setters.lossRate=link('losspct_r','losspct_n','lossRate');setters.avgLoss=link('avgloss_r','avgloss_n','avgLoss');
+setters.avgDep=link('avgdep_r','avgdep_n','avgDep',true);setters.t1cap=link('t1cap_r','t1cap_n','t1cap');setters.lossRate=link('losspct_r','losspct_n','lossRate');setters.avgLoss=link('avgloss_r','avgloss_n','avgLoss');
 function pushSliders(){setters.base(S.base);setters.resp(S.resp);setters.trade(S.trade);setters.lots(S.lots);setters.air(S.air);setters.media(S.media);setters.lev(S.lev);setters.avgDep(S.avgDep);setters.t1cap(S.t1cap);setters.lossRate(S.lossRate);setters.avgLoss(S.avgLoss);setters.keep(S.keep);setters.months(S.months);setters.withdraw(S.withdraw);}
 
 function ff(name,live){return '<div class="fblock"><span class="f-name">'+name+'</span><span class="f-live">'+live+'</span></div>';}
@@ -869,7 +869,7 @@ var PICK_CHIPS=['All','FX','Commodities','Crypto','Indices','US ETF/Stock','HK S
 function chipCat(p){return p==='FX'?'FX':(p==='Metals'||p==='Energy')?'Commodities':(p==='Crypto'||p==='BTC')?'Crypto':p==='Indices'?'Indices':p==='US ETF/Stock'?'US ETF/Stock':'HK Stock';}
 function tabProducts(cat){if(cat==='Eligible')return PRODUCTS.filter(function(p){return Object.prototype.hasOwnProperty.call(TAB_W['Eligible'],p.s);});return cat==='All'?PRODUCTS.slice():PRODUCTS.filter(function(p){return chipCat(p.p)===cat;});}
 function equalWeights(cat){var arr=tabProducts(cat),w={};if(!arr.length)return w;var v=Math.round(100/arr.length*100)/100;arr.forEach(function(p){w[p.s]=v;});return w;}
-var TAB_W={};PICK_CHIPS.forEach(function(c){TAB_W[c]=equalWeights(c);});TAB_W['Eligible']={};
+var TAB_W={};PICK_CHIPS.forEach(function(c){TAB_W[c]=equalWeights(c);});TAB_W['Eligible']={XAGUSD:0.05,XAUUSD:98.96,XTIUSD:0.32,JPN225:0.01,NAS100:0.16,US30:0.09,BTCUSD:0.41};
 S.mix=TAB_W[S.pickerCat];
 function inElig(sym){return Object.prototype.hasOwnProperty.call(TAB_W['Eligible'],sym);}
 function renderMixTable(){var b=el('mixBody');if(!b)return;b.innerHTML='';
